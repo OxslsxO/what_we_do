@@ -1,0 +1,153 @@
+<!--pages/eat/eat.wxml-->
+<view class="container">
+  <!-- 标题 -->
+  <view class="title">今天吃点啥</view>
+  
+  <!-- 毛玻璃卡片 -->
+  <view class="glass-card">
+    <!-- 随机食物展示区 -->
+    <view class="food-container" wx:if="{{food}}">
+      <view class="food-image">
+        <image src="{{foodImage}}" mode="aspectFit" binderror="handleImageError"></image>
+      </view>
+      <view class="food-name">{{food}}</view>
+    </view>
+    
+    <!-- 初始状态 -->
+    <view class="initial-state" wx:else>
+      <view class="initial-icon">🍔</view>
+      <view class="initial-text">点击下方按钮随机生成美食</view>
+    </view>
+    
+    <!-- 随机生成按钮 -->
+    <button class="generate-btn" bindtap="generateFood">
+      <view class="btn-icon">🎲</view>
+      <view class="btn-text">随机生成美食</view>
+    </button>
+  </view>
+  
+  <!-- 功能按钮区 -->
+  <view class="action-buttons">
+    <button class="action-btn sky-btn" bindtap="showSkyForm" wx:if="{{food}}">
+      <view class="btn-icon">🎁</view>
+      <view class="btn-text">天降馅饼</view>
+    </button>
+    <button class="action-btn meituan-btn" bindtap="goToMeituan" wx:if="{{food}}">
+      <view class="btn-icon">🍽️</view>
+      <view class="btn-text">去美团看看</view>
+    </button>
+  </view>
+  
+  <!-- 第二行按钮 -->
+  <view class="action-buttons">
+    <button class="action-btn related-btn" bindtap="getRelatedPosts" wx:if="{{food}}">
+      <view class="btn-icon">🔍</view>
+      <view class="btn-text">相关的啥</view>
+    </button>
+    <button class="action-btn publish-btn" bindtap="navigateToPublish" wx:if="{{food}}">
+      <view class="btn-icon">📤</view>
+      <view class="btn-text">发布啥</view>
+    </button>
+  </view>
+  
+  <!-- 菜谱展示区 -->
+  <view class="recipe-container" wx:if="{{recipe}}">
+    <view class="recipe-title">
+      <view class="recipe-icon">📝</view>
+      <view class="recipe-name">{{food}}的啥菜谱</view>
+    </view>
+    <view class="recipe-content">{{recipe}}</view>
+  </view>
+  
+  <!-- 天降馅饼表单弹窗 -->
+  <view class="modal-overlay" wx:if="{{showSkyModal}}" bindtap="closeSkyModal">
+    <view class="modal-content" bindtap="stopPropagation">
+      <view class="modal-title">
+        <view class="modal-icon">🎁</view>
+        <view class="modal-text">天降馅饼</view>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">收货人</view>
+        <input class="form-input" placeholder="请输入收货人姓名" value="{{skyForm.name}}" bindinput="updateSkyForm" data-field="name"></input>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">收货地址</view>
+        <textarea class="form-textarea" placeholder="请输入详细地址" value="{{skyForm.address}}" bindinput="updateSkyForm" data-field="address"></textarea>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">手机号</view>
+        <input class="form-input" placeholder="请输入手机号" value="{{skyForm.phone}}" bindinput="updateSkyForm" data-field="phone"></input>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">今日开心指数</view>
+        <view class="happiness-slider">
+          <input type="slider" min="0" max="10" value="{{skyForm.happiness}}" bindchange="updateSkyForm" data-field="happiness"></input>
+          <view class="happiness-value">{{skyForm.happiness}}/10</view>
+        </view>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">备注</view>
+        <textarea class="form-textarea" placeholder="请输入备注信息" value="{{skyForm.note}}" bindinput="updateSkyForm" data-field="note"></textarea>
+      </view>
+      
+      <view class="modal-buttons">
+        <button class="modal-btn cancel-btn" bindtap="closeSkyModal">取消</button>
+        <button class="modal-btn submit-btn" bindtap="submitSkyForm">提交</button>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 发布文章表单弹窗 -->
+  <view class="modal-overlay" wx:if="{{showPublishModal}}" bindtap="closePublishModal">
+    <view class="modal-content" bindtap="stopPropagation">
+      <view class="modal-title">
+        <view class="modal-icon">📤</view>
+        <view class="modal-text">发布文章</view>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">标题</view>
+        <input class="form-input" placeholder="请输入文章标题" value="{{publishForm.title}}" bindinput="updatePublishForm" data-field="title"></input>
+      </view>
+      
+      <view class="form-item">
+        <view class="form-label">内容</view>
+        <textarea class="form-textarea" placeholder="请输入文章内容" value="{{publishForm.content}}" bindinput="updatePublishForm" data-field="content"></textarea>
+      </view>
+      
+      <view class="modal-buttons">
+        <button class="modal-btn cancel-btn" bindtap="closePublishModal">取消</button>
+        <button class="modal-btn submit-btn" bindtap="submitPublishForm">发布</button>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 相关文章弹窗 -->
+  <view class="modal-overlay" wx:if="{{showRelatedModal}}" bindtap="closeRelatedModal">
+    <view class="modal-content" bindtap="stopPropagation">
+      <view class="modal-title">
+        <view class="modal-icon">🔍</view>
+        <view class="modal-text">相关文章</view>
+      </view>
+      
+      <view class="related-posts">
+        <view class="related-post" wx:for="{{relatedPosts}}" wx:key="id">
+          <view class="related-post-title">{{item.title}}</view>
+          <view class="related-post-content">{{item.content}}</view>
+        </view>
+        <view wx:if="{{relatedPosts.length === 0}}" class="no-related-posts">
+          暂无相关文章
+        </view>
+      </view>
+      
+      <view class="modal-buttons">
+        <button class="modal-btn cancel-btn" bindtap="closeRelatedModal">关闭</button>
+      </view>
+    </view>
+  </view>
+</view>

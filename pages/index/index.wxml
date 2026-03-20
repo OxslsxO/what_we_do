@@ -1,0 +1,48 @@
+<!-- 首页容器 -->
+<view class="container">
+  <!-- 标题 -->
+  <view class="title">今天干点啥</view>
+  
+  <!-- 主要功能（大按钮） -->
+  <view class="main-options">
+    <!-- 今天吃点啥 -->
+    <view class="main-option" bindtap="goToEat">
+      <view class="main-option-icon love-icon">🍔</view>
+      <view class="main-option-text">今天吃点啥</view>
+    </view>
+    <!-- 今天玩点啥 -->
+    <view class="main-option" bindtap="goToPlay">
+      <view class="main-option-icon star-icon">🎮</view>
+      <view class="main-option-text">今天玩点啥</view>
+    </view>
+  </view>
+  
+  <!-- 新功能（小按钮） -->
+  <view class="new-options">
+    <!-- 今天聊点啥 -->
+    <view class="new-option blue-bg" bindtap="goToChat">
+      <view class="new-option-icon">💬</view>
+      <view class="new-option-text">今天聊点啥</view>
+    </view>
+    <!-- 今天做点啥 -->
+    <view class="new-option red-bg" bindtap="goToActivity">
+      <view class="new-option-icon">🎯</view>
+      <view class="new-option-text">今天做点啥</view>
+    </view>
+    <!-- 今天拍点啥 -->
+    <view class="new-option yellow-bg" bindtap="goToPhoto">
+      <view class="new-option-icon">📸</view>
+      <view class="new-option-text">今天拍点啥</view>
+    </view>
+    <!-- 今天宠点啥 -->
+    <view class="new-option pink-bg" bindtap="goToLove">
+      <view class="new-option-icon">�</view>
+      <view class="new-option-text">今天宠点啥</view>
+    </view>
+    <!-- 今天攒点啥 -->
+    <view class="new-option green-bg" bindtap="goToSave">
+      <view class="new-option-icon">�</view>
+      <view class="new-option-text">今天攒点啥</view>
+    </view>
+  </view>
+</view>

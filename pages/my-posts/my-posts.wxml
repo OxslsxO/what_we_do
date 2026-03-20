@@ -1,0 +1,73 @@
+<view class="container">
+  <!-- 顶部导航 -->
+  <view class="header">
+    <text class="back-btn" bindtap="goBack">←</text>
+    <text class="title">我的帖子</text>
+    <view class="placeholder"></view>
+  </view>
+  
+  <!-- 帖子列表 -->
+  <view class="post-list">
+    <view class="post-item" wx:for="{{posts}}" wx:key="index">
+      <!-- 帖子内容 -->
+      <view class="post-content">
+        <text class="content-text">{{item.content}}</text>
+        <view class="post-images" wx:if="{{item.images && item.images.length > 0}}">
+          <view class="img-square-container" wx:for="{{item.images}}" wx:for-item="image" wx:key="imgIndex">
+            <image 
+              src="{{image}}" 
+              mode="aspectFit" 
+              class="post-image"
+            ></image>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 帖子标签 -->
+      <view class="post-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+        <view class="tag" wx:for="{{item.tags}}" wx:key="tagIndex">{{item.name}}</view>
+      </view>
+      
+      <!-- 帖子信息 -->
+      <view class="post-info">
+        <text class="post-time">{{formatTime(item.createdAt)}}</text>
+        <text class="post-type">{{getPlayTypeName(item.playType)}}</text>
+      </view>
+      
+      <!-- 互动按钮 -->
+      <view class="post-actions">
+        <view class="action-item" bindtap="likePost" data-id="{{item._id}}">
+          <text class="action-icon">{{item.isLiked ? '❤️' : '🤍'}}</text>
+          <text class="action-text">{{item.likes}}</text>
+        </view>
+        <view class="action-item" bindtap="commentPost" data-id="{{item._id}}">
+          <text class="action-icon">💬</text>
+          <text class="action-text">{{item.comments}}</text>
+        </view>
+        <view class="action-item" bindtap="collectPost" data-id="{{item._id}}">
+          <text class="action-icon">{{item.isCollected ? '⭐' : '☆'}}</text>
+          <text class="action-text">{{item.collections}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore}}">
+    <text class="load-more-text" bindtap="loadMore">加载更多</text>
+  </view>
+  
+  <!-- 没有更多数据 -->
+  <view class="no-more" wx:if="{{!hasMore && posts.length > 0}}">
+    <text class="no-more-text">没有更多数据了</text>
+  </view>
+  
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{posts.length === 0}}">
+    <text class="empty-icon">📝</text>
+    <text class="empty-text">还没有发布帖子</text>
+    <view class="empty-btn" bindtap="goToPost">
+      <text class="empty-btn-text">发布第一条帖子</text>
+    </view>
+  </view>
+</view>
