@@ -1,0 +1,54 @@
+{
+  "lazyCodeLoading": "requiredComponents",
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/eat/eat",
+    "pages/play/play",
+    "pages/discover/discover",
+    "pages/profile/profile",
+    "pages/edit-profile/edit-profile",
+    "pages/webview/webview",
+    "pages/chat/chat",
+    "pages/activity/activity",
+    "pages/photo/photo",
+    "pages/love/love",
+    "pages/save/save",
+    "pages/post/post",
+    "pages/my-posts/my-posts",
+    "pages/comment/comment"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fff",
+    "navigationBarTitleText": "今天干点啥",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#999",
+    "selectedColor": "#ff69b4",
+    "backgroundColor": "#fff",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/discover/discover",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取用户位置信息"
+    }
+  }
+}

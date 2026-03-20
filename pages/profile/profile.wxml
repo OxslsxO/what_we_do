@@ -1,0 +1,101 @@
+<!-- 个人中心容器 -->
+<view class="container">
+  <!-- 头部区域 -->
+  <view class="header">
+    <view class="user-info">
+      <!-- 头像 -->
+      <image class="avatar" src="{{userInfo.avatar}}" mode="aspectFill" />
+      <!-- 用户信息 -->
+      <view class="user-details">
+        <view class="username">{{userInfo.name}}</view>
+        <view class="user-desc">{{userInfo.desc}}</view>
+      </view>
+      <!-- 编辑资料按钮 -->
+      <view class="edit-btn" bindtap="editProfile">编辑资料</view>
+    </view>
+  </view>
+
+  <!-- 统计栏 -->
+  <view class="stats">
+    <!-- 参与活动 -->
+    <view class="stat-item">
+      <view class="stat-value">{{userInfo.activities}}</view>
+      <view class="stat-label">参与活动</view>
+    </view>
+    <!-- 好友 -->
+    <view class="stat-item">
+      <view class="stat-value">{{userInfo.friends}}</view>
+      <view class="stat-label">好友</view>
+    </view>
+    <!-- 积分 -->
+    <view class="stat-item">
+      <view class="stat-value">{{userInfo.points}}</view>
+      <view class="stat-label">积分</view>
+    </view>
+  </view>
+
+  <!-- 我的活动菜单 -->
+  <view class="menu-section">
+    <view class="menu-title">我的活动</view>
+    <view class="menu-items">
+      <!-- 我的活动 -->
+      <view class="menu-item" bindtap="viewMyActivities">
+        <text class="menu-icon activity-icon">📅</text>
+        <text class="menu-text">我的活动</text>
+        <text class="menu-arrow">→</text>
+      </view>
+      <!-- 我的帖子 -->
+      <view class="menu-item" bindtap="viewMyPosts">
+        <text class="menu-icon post-icon">📝</text>
+        <text class="menu-text">我的帖子</text>
+        <text class="menu-arrow">→</text>
+      </view>
+      <!-- 收藏 -->
+      <view class="menu-item" bindtap="viewFavorites">
+        <text class="menu-icon favorite-icon">❤️</text>
+        <text class="menu-text">收藏</text>
+        <text class="menu-arrow">→</text>
+      </view>
+      <!-- 历史记录 -->
+      <view class="menu-item" bindtap="viewHistory">
+        <text class="menu-icon history-icon">⏰</text>
+        <text class="menu-text">历史记录</text>
+        <text class="menu-arrow">→</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 设置菜单 -->
+  <view class="menu-section">
+    <view class="menu-title">设置</view>
+    <view class="menu-items">
+      <!-- 设置 -->
+      <view class="menu-item" bindtap="viewSettings">
+        <text class="menu-icon settings-icon">⚙️</text>
+        <text class="menu-text">设置</text>
+        <text class="menu-arrow">→</text>
+      </view>
+      <!-- 隐私 -->
+      <view class="menu-item" bindtap="viewPrivacy">
+        <text class="menu-icon privacy-icon">🔒</text>
+        <text class="menu-text">隐私</text>
+        <text class="menu-arrow">→</text>
+      </view>
+      <!-- 帮助与反馈 -->
+      <view class="menu-item" bindtap="viewHelp">
+        <text class="menu-icon help-icon">❓</text>
+        <text class="menu-text">帮助与反馈</text>
+        <text class="menu-arrow">→</text>
+      </view>
+      <!-- 关于 -->
+      <view class="menu-item" bindtap="viewAbout">
+        <text class="menu-icon about-icon">ℹ️</text>
+        <text class="menu-text">关于</text>
+        <text class="menu-arrow">→</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 退出登录按钮 -->
+  <view class="logout-btn" bindtap="logout">退出登录</view>
+</view>

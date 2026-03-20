@@ -1,0 +1,174 @@
+<!-- 广场页容器 -->
+<view class="container">
+  <!-- 顶部导航 -->
+  <view class="header">
+    <text class="title">广场</text>
+    <view class="header-actions">
+      <!-- 筛选按钮 -->
+      <view class="filter-btn" bindtap="showFilter">
+        <text class="filter-icon">筛选</text>
+      </view>
+      <!-- 发布按钮 -->
+      <view class="post-btn" bindtap="goToPost">
+        <text class="post-btn-icon">+</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 筛选弹窗 -->
+  <view class="filter-modal" wx:if="{{showFilterModal}}" animation="{{filterModalAnimation}}">
+    <view class="filter-modal-content">
+      <view class="filter-modal-header">
+        <text class="filter-modal-title">筛选</text>
+        <text class="filter-modal-close" bindtap="hideFilter">✕</text>
+      </view>
+      
+      <!-- 标签筛选 -->
+      <view class="filter-section">
+        <text class="filter-section-title">标签</text>
+        <view class="filter-tag-list">
+          <view class="filter-tag-item {{selectedTag === '' ? 'active' : ''}}" bindtap="selectTag" data-tag="">
+            <text class="filter-tag-text">全部</text>
+          </view>
+          <view class="filter-tag-item {{selectedTag === tag.name ? 'active' : ''}}" wx:for="{{hotTags}}" wx:key="index" bindtap="selectTag" data-tag="{{tag.name}}">
+            <text class="filter-tag-text">{{tag.name}}</text>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 玩法类型筛选 -->
+      <view class="filter-section">
+        <text class="filter-section-title">玩法类型</text>
+        <view class="filter-play-type-list">
+          <view class="filter-play-type-item {{selectedPlayType === '' ? 'active' : ''}}" bindtap="selectPlayType" data-type="">
+            <text class="filter-play-type-text">全部</text>
+          </view>
+          <view class="filter-play-type-item {{selectedPlayType === 'eat' ? 'active' : ''}}" bindtap="selectPlayType" data-type="eat">
+            <text class="filter-play-type-icon">🍔</text>
+            <text class="filter-play-type-text">吃点啥</text>
+          </view>
+          <view class="filter-play-type-item {{selectedPlayType === 'play' ? 'active' : ''}}" bindtap="selectPlayType" data-type="play">
+            <text class="filter-play-type-icon">🎮</text>
+            <text class="filter-play-type-text">玩点啥</text>
+          </view>
+          <view class="filter-play-type-item {{selectedPlayType === 'chat' ? 'active' : ''}}" bindtap="selectPlayType" data-type="chat">
+            <text class="filter-play-type-icon">💬</text>
+            <text class="filter-play-type-text">聊点啥</text>
+          </view>
+          <view class="filter-play-type-item {{selectedPlayType === 'activity' ? 'active' : ''}}" bindtap="selectPlayType" data-type="activity">
+            <text class="filter-play-type-icon">🎯</text>
+            <text class="filter-play-type-text">做点啥</text>
+          </view>
+          <view class="filter-play-type-item {{selectedPlayType === 'photo' ? 'active' : ''}}" bindtap="selectPlayType" data-type="photo">
+            <text class="filter-play-type-icon">📸</text>
+            <text class="filter-play-type-text">拍点啥</text>
+          </view>
+          <view class="filter-play-type-item {{selectedPlayType === 'love' ? 'active' : ''}}" bindtap="selectPlayType" data-type="love">
+            <text class="filter-play-type-icon">💝</text>
+            <text class="filter-play-type-text">宠点啥</text>
+          </view>
+          <view class="filter-play-type-item {{selectedPlayType === 'save' ? 'active' : ''}}" bindtap="selectPlayType" data-type="save">
+            <text class="filter-play-type-icon">💰</text>
+            <text class="filter-play-type-text">攒点啥</text>
+          </view>
+        </view>
+      </view>
+      
+      <view class="filter-modal-footer">
+        <text class="filter-reset" bindtap="resetFilter">重置</text>
+        <text class="filter-confirm" bindtap="confirmFilter">确定</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 筛选遮罩 -->
+  <view class="filter-overlay" wx:if="{{showFilterModal}}" bindtap="hideFilter" animation="{{filterOverlayAnimation}}"></view>
+  
+  <!-- 帖子列表 -->
+  <view class="post-list">
+    <view class="post-item" wx:for="{{posts}}" wx:key="index" animation="{{postAnimations[index]}}">
+      <!-- 作者信息 -->
+      <view class="post-header">
+        <image src="{{item.author.userInfo.avatar || 'https://via.placeholder.com/40' }}" class="avatar"></image>
+        <view class="author-info">
+          <text class="author-name">{{item.author.userInfo.name || '匿名用户'}}</text>
+          <text class="post-time">{{formatTime(item.createdAt)}}</text>
+        </view>
+      </view>
+      
+      <!-- 帖子内容 -->
+      <view class="post-content">
+        <text class="content-text">{{item.content}}</text>
+        <view class="post-images" wx:if="{{item.images && item.images.length > 0}}">
+          <view class="img-square-container" wx:for="{{item.images}}" wx:for-item="image" wx:for-index="imgIndex" wx:key="imgIndex">
+            <image 
+              src="{{image}}" 
+              mode="aspectFit"
+              class="post-image"
+              bindtap="previewImage"
+              data-post-index="{{index}}"
+              data-image-index="{{imgIndex}}"
+              bindload="imageLoad"
+            ></image>
+          </view>
+        </view>
+        <!-- 无图片时的占位块 -->
+        <view class="no-image-placeholder" wx:if="{{!item.images || item.images.length === 0}}">
+          <text class="no-image-icon">🖼️</text>
+          <text class="no-image-text">暂无图片</text>
+        </view>
+      </view>
+      
+      <!-- 帖子标签 -->
+      <view class="post-tags" wx:if="{{item.tags && item.tags.length > 0}}">
+        <view class="tag" wx:for="{{item.tags}}" wx:for-item="tag" wx:key="tagIndex">{{tag.name}}</view>
+      </view>
+      
+      <!-- 互动按钮 -->
+      <view class="post-actions">
+        <view class="action-item" bindtap="likePost" data-id="{{item._id}}" data-index="{{index}}">
+          <view class="action-btn {{item.isLiked ? 'liked' : ''}}">
+            <text class="action-icon">{{item.isLiked ? '❤️' : '🤍'}}</text>
+          </view>
+          <text class="action-text">{{item.likes}}</text>
+        </view>
+        <view class="action-item" bindtap="commentPost" data-id="{{item._id}}">
+          <view class="action-btn">
+            <text class="action-icon">💬</text>
+          </view>
+          <text class="action-text">{{item.comments}}</text>
+        </view>
+        <view class="action-item" bindtap="collectPost" data-id="{{item._id}}" data-index="{{index}}">
+          <view class="action-btn {{item.isCollected ? 'collected' : ''}}">
+            <text class="action-icon">{{item.isCollected ? '⭐' : '☆'}}</text>
+          </view>
+          <text class="action-text">{{item.collections}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 加载更多 -->
+  <view class="load-more" wx:if="{{hasMore}}">
+    <view class="load-more-content" bindtap="loadMore" animation="{{loadMoreAnimation}}">
+      <text class="load-more-text" wx:if="{{!loading}}">加载更多</text>
+      <view class="loading-spinner" wx:else>
+        <text class="loading-icon">⟳</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 没有更多数据 -->
+  <view class="no-more" wx:if="{{!hasMore && posts.length > 0}}">
+    <text class="no-more-text">没有更多数据了</text>
+  </view>
+  
+  <!-- 空状态 -->
+  <view class="empty-state" wx:if="{{posts.length === 0}}">
+    <text class="empty-icon">📝</text>
+    <text class="empty-text">还没有帖子，快来发布第一条吧！</text>
+    <view class="empty-btn" bindtap="goToPost">
+      <text class="empty-btn-text">发布帖子</text>
+    </view>
+  </view>
+</view>

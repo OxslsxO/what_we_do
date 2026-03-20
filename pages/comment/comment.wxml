@@ -1,0 +1,45 @@
+<view class="container">
+  <!-- 顶部导航 -->
+  <view class="header">
+    <text class="back-btn" bindtap="goBack">←</text>
+    <text class="title">评论</text>
+    <view class="placeholder"></view>
+  </view>
+  
+  <!-- 帖子信息 -->
+  <view class="post-info" wx:if="{{post}}">
+    <view class="post-header">
+      <image src="{{post.author.userInfo.avatar || 'https://via.placeholder.com/40' }}" class="avatar"></image>
+      <view class="author-info">
+        <text class="author-name">{{post.author.userInfo.name || '匿名用户'}}</text>
+        <text class="post-time">{{formatTime(post.createdAt)}}</text>
+      </view>
+    </view>
+    <view class="post-content">
+      <text class="content-text">{{post.content}}</text>
+      <view class="post-images" wx:if="{{post.images && post.images.length > 0}}">
+          <image src="{{image}}" mode="aspectFill" class="post-image" wx:for="{{post.images}}" wx:for-item="image" wx:for-index="imgIndex" wx:key="imgIndex" bindtap="previewImage" data-image-index="{{imgIndex}}"></image>
+        </view>
+    </view>
+  </view>
+  
+  <!-- 评论列表 -->
+  <view class="comment-list">
+    <view class="comment-item" wx:for="{{comments}}" wx:key="index">
+      <image src="{{item.author.userInfo.avatar || 'https://via.placeholder.com/40' }}" class="comment-avatar"></image>
+      <view class="comment-content">
+        <view class="comment-header">
+          <text class="comment-author">{{item.author.userInfo.name || '匿名用户'}}</text>
+          <text class="comment-time">{{formatTime(item.createdAt)}}</text>
+        </view>
+        <text class="comment-text">{{item.content}}</text>
+      </view>
+    </view>
+  </view>
+  
+  <!-- 评论输入 -->
+  <view class="comment-input">
+    <input placeholder="写下你的评论..." class="input" bindinput="onInputChange" value="{{inputContent}}"></input>
+    <button class="send-btn" bindtap="sendComment" disabled="{{!inputContent.trim()}}">发送</button>
+  </view>
+</view>
