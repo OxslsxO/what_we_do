@@ -1,0 +1,169 @@
+<view class="page">
+  <view class="hero-shell">
+    <view class="hero-glow hero-glow-left"></view>
+    <view class="hero-glow hero-glow-right"></view>
+
+    <view class="hero-card">
+      <view class="hero-kicker">Relationship Space</view>
+      <view class="hero-title">关系空间</view>
+      <view class="hero-greeting" style="font-size: 26rpx; margin-top: 16rpx; opacity: 0.9;">
+        让吃喝玩拍更有回应，让每一件共同完成的小事都能变成闪光的颗粒。
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{relation}}">
+    <view class="section-head">
+      <view class="section-title">当前关系状态</view>
+      <view class="section-link" bindtap="closeRelation">解除关系</view>
+    </view>
+
+    <view class="relation-card">
+      <view class="relation-top">
+        <view class="relation-info">
+          <view class="relation-badge">关系进行中</view>
+          <view class="partner-name">{{relation.partner.name || 'TA'}}</view>
+          <view class="partner-type-tag">{{relation.type === 'lover' ? '❤ 恋人模式' : relation.type === 'buddy' ? '🤝 搭子模式' : '✨ 闺蜜 / 好友'}}</view>
+        </view>
+        <view class="partner-avatar">{{relation.partner.name ? relation.partner.name.slice(0, 1) : 'TA'}}</view>
+      </view>
+
+      <view class="partner-copy">{{relation.type === 'lover' ? '每天都想见你，也想和你一起完成更多小事。' : relation.type === 'buddy' ? '有个默契的搭子，生活瞬间高效又有趣。' : '全世界最好的朋友，值得全世界最好的记录。'}}</view>
+
+      <view class="stats-row">
+        <view class="stat-card">
+          <view class="stat-value">{{relation.stats.actionsCount || 0}}</view>
+          <view class="stat-label">发起动作</view>
+        </view>
+        <view class="stat-card">
+          <view class="stat-value">{{relation.stats.completedCount || 0}}</view>
+          <view class="stat-label">共同完成</view>
+        </view>
+        <view class="stat-card">
+          <view class="stat-value">{{relation.stats.memoryCount || 0}}</view>
+          <view class="stat-label">沉淀回忆</view>
+        </view>
+      </view>
+
+      <view class="quick-row">
+        <view class="quick-chip" bindtap="goToEat" hover-class="hover-opacity">🍜 吃点啥</view>
+        <view class="quick-chip" bindtap="goToPlay" hover-class="hover-opacity">🌿 玩点啥</view>
+        <view class="quick-chip" bindtap="goToPhoto" hover-class="hover-opacity">📷 拍点啥</view>
+        <view class="quick-chip" bindtap="goToActivity" hover-class="hover-opacity">🗂 做点啥</view>
+        <view class="quick-chip" bindtap="goToChat" hover-class="hover-opacity">💬 消息</view>
+        <view class="quick-chip" bindtap="goToMemories" hover-class="hover-opacity">🎬 回忆</view>
+      </view>
+
+      <view class="notice-card" wx:if="{{notificationSummary.unreadCount || notificationSummary.recentNotifications.length}}" bindtap="goToChat" hover-class="hover-scale">
+        <view class="notice-badge">未读 {{notificationSummary.unreadCount || 0}}</view>
+        <view class="notice-copy">
+          {{notificationSummary.recentNotifications.length ? notificationSummary.recentNotifications[0].title : '最新的关系动作会出现在这里'}}
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{pendingInvites.length}}">
+    <view class="section-head">
+      <view class="section-title">待处理邀请</view>
+    </view>
+    <view class="invite-list">
+      <view class="invite-card" wx:for="{{pendingInvites}}" wx:key="_id">
+        <view class="invite-title">{{item.partner.name || '有人'}} 想和你建立关系</view>
+        <view class="invite-copy">{{item.type === 'lover' ? '恋人' : item.type === 'buddy' ? '搭子' : '闺蜜 / 好友'}} 邀请正在等待你的回应。</view>
+        <view class="invite-actions">
+          <button class="ghost-button mini-button" data-relation-id="{{item._id}}" data-decision="decline" bindtap="respondInvite">暂不接受</button>
+          <button class="warm-button mini-button" data-relation-id="{{item._id}}" data-decision="accept" bindtap="respondInvite">接受邀请</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 玩法五：爱的小纸条互动墙 -->
+  <view class="section" wx:if="{{relation}}">
+    <view class="section-head">
+      <view class="section-title">爱的小纸条</view>
+    </view>
+    <view class="note-wall">
+      <view class="note-input-box">
+        <input class="note-input" placeholder="给对方留张小纸条..." value="{{noteText}}" bindinput="onNoteInput" />
+        <button class="note-send-btn" bindtap="sendCustomNote" hover-class="hover-opacity">发送</button>
+      </view>
+      
+      <view class="quick-notes">
+        <view class="quick-note-item" bindtap="sendQuickNote" data-text="捏一下" data-action="pinch" hover-class="hover-scale">🤏 捏一下</view>
+        <view class="quick-note-item" bindtap="sendQuickNote" data-text="想你了" data-action="miss" hover-class="hover-scale">💖 想你了</view>
+        <view class="quick-note-item" bindtap="sendQuickNote" data-text="今天辛苦了" data-action="work" hover-class="hover-scale">☕ 辛苦了</view>
+        <view class="quick-note-item" bindtap="sendQuickNote" data-text="给你一个云抱抱" data-action="hug" hover-class="hover-scale">🫂 抱抱</view>
+      </view>
+
+      <view class="note-history" wx:if="{{noteHistory.length}}">
+        <view class="note-history-item {{item.isMine ? 'note-mine' : ''}}" wx:for="{{noteHistory}}" wx:key="_id">
+          <text class="note-content">{{item.message}}</text>
+          <view class="note-footer">
+            <text class="note-time">{{item.timeLabel}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{pendingActions.length}}">
+    <view class="section-head">
+      <view class="section-title">动作与回应</view>
+      <view class="section-link" bindtap="goToChat">查看全部</view>
+    </view>
+    <view class="action-list">
+      <view class="action-card" wx:for="{{pendingActions}}" wx:key="_id">
+        <view class="action-status-tag">{{item.status === 'accepted' ? '进行中' : '待处理'}}</view>
+        <view class="action-title">{{item.title}}</view>
+        <view class="action-copy">{{item.summary || item.message}}</view>
+        <view class="action-actions" wx:if="{{!item.isMine && item.status === 'pending'}}">
+          <button class="ghost-button mini-button" data-action-id="{{item._id}}" data-decision="decline" bindtap="respondAction">换一个吧</button>
+          <button class="warm-button mini-button" data-action-id="{{item._id}}" data-decision="accept" data-choice="accept" bindtap="respondAction">我愿意</button>
+        </view>
+        <view class="action-actions" wx:elif="{{item.status === 'accepted'}}">
+          <button class="warm-button mini-button" data-action-id="{{item._id}}" bindtap="completeAction">标记完成</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 全新：小圈子入口模块 -->
+  <view class="section">
+    <view class="section-head">
+      <view class="section-title">我的小圈子 (4人限定)</view>
+    </view>
+    <view class="circles-banner" bindtap="goToCircles" hover-class="hover-scale">
+      <view class="circles-content">
+        <view class="circles-title">4 人客厅互动空间</view>
+        <view class="circles-desc">拽一条线，触碰那个正在想念的人。</view>
+      </view>
+      <view class="circles-btn">去客厅 →</view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{!relation}}">
+    <view class="section-head">
+      <view class="section-title">发起一对一羁绊</view>
+    </view>
+    <view class="builder-card">
+      <view class="type-row">
+        <view class="type-chip {{inviteForm.relationType === 'lover' ? 'type-chip-active' : ''}}" data-type="lover" bindtap="selectRelationType" hover-class="hover-opacity">恋人</view>
+        <view class="type-chip {{inviteForm.relationType === 'buddy' ? 'type-chip-active' : ''}}" data-type="buddy" bindtap="selectRelationType" hover-class="hover-opacity">搭子</view>
+        <view class="type-chip {{inviteForm.relationType === 'bestie' ? 'type-chip-active' : ''}}" data-type="bestie" bindtap="selectRelationType" hover-class="hover-opacity">闺蜜/好友</view>
+      </view>
+
+      <view class="field-label">对方手机号</view>
+      <input class="field-input" placeholder="输入对方注册手机号" value="{{inviteForm.phone}}" data-field="phone" bindinput="updateInviteForm" />
+
+      <view class="field-label">纪念日</view>
+      <input class="field-input" placeholder="可以先不填" value="{{inviteForm.anniversary}}" data-field="anniversary" bindinput="updateInviteForm" />
+
+      <view class="field-label">备注</view>
+      <textarea class="field-textarea" placeholder="写一句邀请说明，关系会更有温度" value="{{inviteForm.notes}}" data-field="notes" bindinput="updateInviteForm"></textarea>
+
+      <button class="warm-button" style="width: 100%; margin-top: 40rpx;" bindtap="submitInvite" hover-class="hover-scale">发送关系邀请</button>
+    </view>
+  </view>
+</view>

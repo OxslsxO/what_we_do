@@ -1,0 +1,96 @@
+page {
+  /* Colors - 质感深青色底色配合卡其色卡片 (Cyan + Khaki) */
+  --bg-color: #CCEBE6;
+  --bg-gradient: linear-gradient(120deg, #CEF0EA 0%, #9DD8CE 100%);
+  --card-bg: #F5EFEB;
+  --card-bg-gradient: linear-gradient(135deg, rgba(250, 244, 238, 0.98) 0%, rgba(238, 230, 220, 0.95) 100%);
+  --primary: #FF9A76;
+  --primary-light: #FFD2C4;
+  --primary-gradient: linear-gradient(135deg, #FFAE90 0%, #FF9A76 100%);
+  --secondary: #FFB6C1;
+  --secondary-light: #FFE0E5;
+  --text-main: #4A4A4A;
+  --text-sub: #8C8C8C;
+  --text-light: #B8B8B8;
+  --border-color: #E2D3C4;
+  --border-light: rgba(245, 235, 222, 0.85);
+
+  /* Typography - 圆润友好的无衬线 */
+  --font-family: 'PingFang SC', 'Helvetica Neue', Helvetica, 'Microsoft YaHei', sans-serif;
+  --line-height: 1.6;
+
+  /* Radius - 舒适平滑圆角 */
+  --radius-sm: 16rpx;
+  --radius-md: 24rpx; /* 标准卡片圆角 */
+  --radius-lg: 32rpx;
+  --radius-round: 999rpx;
+
+  /* Shadows - 柔和层次 (使用略带暖粉色的更宽投影来和背景分离) */
+  --shadow-soft: 0 16rpx 42rpx rgba(220, 160, 140, 0.12);
+  --shadow-hover: 0 20rpx 48rpx rgba(220, 160, 140, 0.20);
+  --shadow-primary: 0 12rpx 24rpx rgba(255, 154, 118, 0.3);
+
+  font-family: var(--font-family);
+  line-height: var(--line-height);
+  color: var(--text-main);
+  /* 应用全局深青色背景渐变与现代手账本线条纹理 (Cyan) */
+  background: 
+    url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='40'><path d='M20,17 L20,23 M17,20 L23,20' stroke='%233B9B8E' stroke-width='1.5' opacity='0.35' stroke-linecap='round'/><path d='M0,40 L40,40 L40,0' fill='none' stroke='%233B9B8E' stroke-width='1' opacity='0.15' stroke-dasharray='2,4'/></svg>") repeat,
+    var(--bg-gradient);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Global Transitions & Hover States */
+view, text, image, button {
+  box-sizing: border-box;
+}
+
+.hover-scale {
+  transform: scale(0.97);
+  opacity: 0.9;
+  transition: all 0.2s ease-out;
+}
+
+.hover-opacity {
+  opacity: 0.7;
+  transition: opacity 0.2s ease-out;
+}
+
+/* Common Card Style */
+.card-base {
+  background: var(--card-bg-gradient);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-soft);
+  border: 1rpx solid var(--border-light);
+  padding: 32rpx;
+  transition: all 0.3s ease-out;
+}
+
+/* Common Button Style */
+.btn-primary {
+  background: var(--primary-gradient);
+  color: #FFFFFF;
+  border-radius: var(--radius-round);
+  text-align: center;
+  font-weight: 600;
+  font-size: 28rpx;
+  box-shadow: var(--shadow-primary);
+  padding: 20rpx 40rpx;
+  border: none;
+}
+
+.btn-primary::after {
+  border: none;
+}
+
+.btn-ghost {
+  background: #FFFFFF;
+  color: var(--primary);
+  border: 1rpx solid var(--primary-light);
+  border-radius: var(--radius-round);
+  text-align: center;
+  font-weight: 600;
+  font-size: 28rpx;
+  padding: 20rpx 40rpx;
+}

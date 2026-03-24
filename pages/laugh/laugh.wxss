@@ -1,0 +1,79 @@
+page {
+  /* Overwrite App variables for Laugh Page - Warm Peachy Orange */
+  --primary: #FFA8A8;
+  --primary-light: #FFD6D6;
+  --primary-gradient: linear-gradient(135deg, #FFBEBE 0%, #FFA8A8 100%);
+  --bg-color: #FDFAFA;
+  --card-bg-gradient: linear-gradient(135deg, rgba(255, 251, 251, 1) 0%, rgba(253, 248, 248, 0.95) 100%);
+  --shadow-primary: 0 12rpx 24rpx rgba(255, 168, 168, 0.3);
+  --border-light: rgba(255, 214, 214, 0.5);
+}
+
+.page {
+  min-height: 100vh;
+  padding: 32rpx 24rpx 52rpx;
+  box-sizing: border-box;
+}
+
+/* Base Cards */
+.hero-card,
+.task-card,
+.status-card {
+  padding: 40rpx 36rpx;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg-gradient);
+  border: 1rpx solid var(--border-light);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 32rpx;
+}
+
+/* Typography */
+.hero-kicker,
+.status-label,
+.task-scene {
+  font-size: 22rpx;
+  color: var(--primary);
+  letter-spacing: 2rpx;
+  font-weight: 500;
+}
+
+.hero-title,
+.task-title,
+.status-title {
+  margin-top: 16rpx;
+  font-size: 52rpx;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.hero-copy,
+.task-copy,
+.status-copy {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: var(--text-sub);
+}
+
+/* Specific elements */
+.task-scene {
+  display: inline-block;
+  padding: 10rpx 24rpx;
+  border-radius: var(--radius-round);
+  background: rgba(255, 168, 168, 0.1);
+  color: var(--primary);
+  margin-bottom: 24rpx;
+}
+
+.action-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 44rpx;
+}
+
+/* 覆盖laugh.wxss 中原来按钮只叫 button, 所以要确保 WXML 里的按钮都加上对应的 class 或者我们在 wxss 里做定义，统一用 app.wxss 里的 btn-primary 和 btn-ghost */
+.warm-button,
+.ghost-button {
+  flex: 1;
+  padding: 24rpx 0;
+}

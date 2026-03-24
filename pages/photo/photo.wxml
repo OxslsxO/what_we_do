@@ -1,0 +1,24 @@
+<view class="page">
+  <view class="hero-card">
+    <view class="hero-kicker">Photo Engine</view>
+    <view class="hero-title">今天拍点啥</view>
+    <view class="hero-copy">别等到生活变精彩才记录，很多值得回头看的画面，其实就藏在今天。</view>
+  </view>
+
+  <view class="idea-card">
+    <view class="idea-scene">{{currentIdea.scene}}</view>
+    <view class="idea-title">{{currentIdea.title}}</view>
+    <view class="idea-copy">{{currentIdea.tip}}</view>
+
+    <view class="action-row">
+      <button class="ghost-button btn-ghost" bindtap="randomIdea" hover-class="hover-opacity">换个主题</button>
+      <button class="warm-button btn-primary" bindtap="sendPhotoTask" hover-class="hover-scale">{{relation ? '发起拍照任务' : '先建立关系'}}</button>
+    </view>
+  </view>
+
+  <view class="status-card" wx:if="{{latestAction}}">
+    <view class="status-label">任务状态</view>
+    <view class="status-title">{{latestAction.title}}</view>
+    <view class="status-copy">{{latestAction.status === 'accepted' ? '对方已经回应，可以开始去拍了。' : '任务已经送达，正在等待对方回应。'}}</view>
+  </view>
+</view>

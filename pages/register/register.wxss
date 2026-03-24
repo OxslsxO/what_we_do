@@ -1,0 +1,261 @@
+/* pages/register/register.wxss */
+.container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40rpx;
+  background: linear-gradient(135deg, #f9f3e9 0%, #f5e8d3 100%);
+}
+
+.register-card {
+  width: 100%;
+  max-width: 500rpx;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 24rpx;
+  padding: 50rpx 40rpx;
+  box-shadow: 0 12rpx 32rpx rgba(149, 157, 165, 0.15);
+  backdrop-filter: blur(10rpx);
+  border: 1rpx solid rgba(255, 255, 255, 0.5);
+}
+
+.register-header {
+  text-align: center;
+  margin-bottom: 40rpx;
+}
+
+.register-title {
+  font-size: 36rpx;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 12rpx;
+}
+
+.register-subtitle {
+  font-size: 24rpx;
+  color: #666;
+}
+
+.register-form {
+  margin-bottom: 30rpx;
+}
+
+.form-item {
+  margin-bottom: 30rpx;
+}
+
+.input-wrapper {
+  position: relative;
+  background: #faf8f5;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  border: 1rpx solid #f0e6d8;
+  transition: all 0.3s ease;
+}
+
+.input-wrapper:focus-within {
+  border-color: #e67e22;
+  box-shadow: 0 0 0 3rpx rgba(230, 126, 34, 0.1);
+}
+
+.input-label {
+  display: block;
+  font-size: 24rpx;
+  color: #666;
+  margin-bottom: 12rpx;
+  font-weight: 500;
+}
+
+.input {
+  width: 100%;
+  font-size: 28rpx;
+  color: #333;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+.input::placeholder {
+  color: #c9c0b3;
+}
+
+.password-input {
+  display: flex;
+  align-items: center;
+}
+
+.password-toggle {
+  font-size: 32rpx;
+  cursor: pointer;
+  margin-left: 16rpx;
+}
+
+.code-input-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.code-input {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.code-input .input {
+  flex: 1;
+}
+
+.code-btn {
+  background: #f5e8d3;
+  color: #e67e22;
+  border: none;
+  border-radius: 10rpx;
+  padding: 16rpx 24rpx;
+  font-size: 24rpx;
+  margin-left: 16rpx;
+  min-width: 160rpx;
+}
+
+.code-btn:disabled {
+  background: #f0e6d8;
+  color: #c9c0b3;
+}
+
+.error-message {
+  font-size: 22rpx;
+  color: #e74c3c;
+  margin-top: 8rpx;
+  margin-left: 4rpx;
+}
+
+.agreement {
+  display: flex;
+  align-items: center;
+  margin: 30rpx 0;
+}
+
+.checkbox {
+  width: 28rpx;
+  height: 28rpx;
+  border: 2rpx solid #e67e22;
+  border-radius: 6rpx;
+  margin-right: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.checkbox.checked {
+  background: #e67e22;
+  color: #fff;
+}
+
+.agreement-text {
+  flex: 1;
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.4;
+}
+
+.agreement-link {
+  color: #e67e22;
+  text-decoration: underline;
+}
+
+.register-btn {
+  width: 100%;
+  background: linear-gradient(135deg, #e67e22 0%, #f39c12 100%);
+  color: #fff;
+  border: none;
+  border-radius: 12rpx;
+  padding: 28rpx;
+  font-size: 30rpx;
+  font-weight: 600;
+  margin-top: 20rpx;
+  box-shadow: 0 8rpx 20rpx rgba(230, 126, 34, 0.3);
+  transition: all 0.3s ease;
+}
+
+.register-btn:hover {
+  box-shadow: 0 12rpx 28rpx rgba(230, 126, 34, 0.4);
+  transform: translateY(-2rpx);
+}
+
+.register-btn:active {
+  transform: translateY(0);
+}
+
+.login-link {
+  text-align: center;
+  margin-top: 30rpx;
+  font-size: 24rpx;
+  color: #666;
+}
+
+.login-btn {
+  color: #e67e22;
+  font-weight: 600;
+  margin-left: 8rpx;
+  cursor: pointer;
+}
+
+.toast {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  padding: 20rpx 30rpx;
+  border-radius: 12rpx;
+  font-size: 26rpx;
+  z-index: 9999;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+}
+
+.modal-content {
+  background: #fff;
+  border-radius: 20rpx;
+  padding: 40rpx;
+  width: 80%;
+  max-height: 70vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30rpx;
+}
+
+.modal-title {
+  font-size: 32rpx;
+  font-weight: 600;
+  color: #333;
+}
+
+.modal-close {
+  font-size: 36rpx;
+  cursor: pointer;
+  color: #999;
+}
+
+.modal-body {
+  font-size: 24rpx;
+  color: #666;
+  line-height: 1.6;
+}

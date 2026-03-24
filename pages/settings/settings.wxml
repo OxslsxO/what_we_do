@@ -1,0 +1,52 @@
+<view class="page">
+  <view class="hero">
+    <view class="hero-kicker">Preferences</view>
+    <view class="hero-title">设置</view>
+    <view class="hero-copy">这里先管理本地可用的提醒、草稿和推荐偏好，后面接入更多系统能力时会继续往这里收口。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">提醒与关系同步</view>
+    <view class="setting-card">
+      <view class="setting-row">
+        <view class="setting-copy">
+          <view class="setting-name">动作提醒</view>
+          <view class="setting-desc">收到关系邀请、回应和完成提醒时在本地保留开关</view>
+        </view>
+        <switch checked="{{settings.notificationsEnabled}}" color="#de945d" data-field="notificationsEnabled" bindchange="updateSwitch" />
+      </view>
+      <view class="setting-row">
+        <view class="setting-copy">
+          <view class="setting-name">关系同步提示</view>
+          <view class="setting-desc">保留恋人 / 搭子相关的同步入口状态</view>
+        </view>
+        <switch checked="{{settings.relationSyncEnabled}}" color="#de945d" data-field="relationSyncEnabled" bindchange="updateSwitch" />
+      </view>
+      <view class="setting-row no-border">
+        <view class="setting-copy">
+          <view class="setting-name">附近推荐</view>
+          <view class="setting-desc">允许首页和玩法页优先展示附近灵感</view>
+        </view>
+        <switch checked="{{settings.nearbyRecommendationEnabled}}" color="#de945d" data-field="nearbyRecommendationEnabled" bindchange="updateSwitch" />
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">草稿与缓存</view>
+    <view class="setting-card">
+      <view class="setting-row">
+        <view class="setting-copy">
+          <view class="setting-name">自动保留草稿</view>
+          <view class="setting-desc">发布页草稿会继续存在本地，方便下次接着写</view>
+        </view>
+        <switch checked="{{settings.autoSaveDraftEnabled}}" color="#de945d" data-field="autoSaveDraftEnabled" bindchange="updateSwitch" />
+      </view>
+      <view class="action-list">
+        <button class="ghost-button" bindtap="clearMood">清空今日心情</button>
+        <button class="ghost-button" bindtap="clearDraft">清空发布草稿</button>
+        <button class="warm-button" bindtap="restoreDefaults">恢复默认设置</button>
+      </view>
+    </view>
+  </view>
+</view>

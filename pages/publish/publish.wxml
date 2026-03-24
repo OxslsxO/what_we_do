@@ -1,0 +1,59 @@
+<view class="page">
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="goBack">←</view>
+    <view class="nav-title">记录今天</view>
+    <view class="nav-placeholder"></view>
+  </view>
+
+  <view class="info-card">
+    <view class="meta-row">
+      <view class="meta-label">来源模块</view>
+      <view class="meta-value">{{module}}</view>
+    </view>
+    <view class="meta-row">
+      <view class="meta-label">记录模板</view>
+      <view class="template-row">
+        <view
+          wx:for="{{templateOptions}}"
+          wx:key="id"
+          class="template-chip {{templateType === item.id ? 'template-chip-active' : ''}}"
+          data-value="{{item.id}}"
+          bindtap="selectTemplate"
+        >{{item.label}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="editor-card">
+    <view class="field-label">标题</view>
+    <input class="field-input" placeholder="给今天起一个简洁的标题" value="{{title}}" bindinput="updateTitle" />
+
+    <view class="field-label">摘要</view>
+    <textarea class="field-textarea summary-textarea" placeholder="用一两句话概括今天这件事为什么值得记下来" value="{{summary}}" bindinput="updateSummary"></textarea>
+
+    <view class="field-label">正文</view>
+    <textarea class="field-textarea content-textarea" placeholder="把今天发生的事写下来，以后会很值钱" value="{{content}}" bindinput="updateContent"></textarea>
+  </view>
+
+  <view class="editor-card">
+    <view class="field-head">
+      <view class="field-label no-margin">媒体</view>
+      <view class="field-tip">{{mediaList.length}} / 9</view>
+    </view>
+    <view class="media-grid">
+      <view class="media-item" wx:for="{{mediaList}}" wx:key="index">
+        <image wx:if="{{item.type === 'image'}}" src="{{item.url}}" mode="aspectFill"></image>
+        <video wx:else src="{{item.url}}" object-fit="cover" controls></video>
+        <view class="delete-badge" bindtap="deleteMedia" data-index="{{index}}">×</view>
+      </view>
+      <view class="media-item add-media" wx:if="{{mediaList.length < 9}}" bindtap="chooseMedia">
+        <view class="add-icon">＋</view>
+        <view class="add-text">添加</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="footer">
+    <button class="publish-button" bindtap="publish">发布这条记录</button>
+  </view>
+</view>

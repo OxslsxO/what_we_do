@@ -1,0 +1,96 @@
+<view class="page">
+  <view class="header">
+    <view class="header-back" bindtap="goBack">←</view>
+    <view class="header-title">评论区</view>
+    <view class="header-action" bindtap="openPostDetail">详情</view>
+  </view>
+
+  <view class="post-card" wx:if="{{post}}">
+    <view class="author-row">
+      <view class="author-avatar">
+        <text wx:if="{{!post.authorAvatar}}">{{post.authorInitial}}</text>
+        <image wx:else src="{{post.authorAvatar}}" mode="aspectFill" class="author-avatar-image"></image>
+      </view>
+      <view class="author-info">
+        <view class="author-name">{{post.authorName}}</view>
+        <view class="author-time">{{post.createdAtText}}</view>
+      </view>
+    </view>
+
+    <view class="post-title" wx:if="{{post.title}}">{{post.title}}</view>
+    <view class="post-content">{{post.summary || post.content}}</view>
+
+    <scroll-view scroll-x class="media-strip" wx:if="{{post.images.length || post.videos.length}}" show-scrollbar="{{false}}">
+      <view class="media-row">
+        <block wx:for="{{post.images}}" wx:key="index">
+          <image class="media-item" src="{{item}}" mode="aspectFill"></image>
+        </block>
+        <block wx:for="{{post.videos}}" wx:key="index">
+          <video class="media-item" src="{{item}}" object-fit="cover" controls></video>
+        </block>
+      </view>
+    </scroll-view>
+
+    <view class="tag-row" wx:if="{{post.tagNames.length}}">
+      <view class="tag-chip" wx:for="{{post.tagNames}}" wx:key="index">#{{item}}</view>
+    </view>
+
+    <view class="action-row">
+      <view class="action-pill" bindtap="toggleLike">
+        <text class="action-emoji">{{post.isLiked ? '❤️' : '🤍'}}</text>
+        <text>{{post.likes || 0}}</text>
+      </view>
+      <view class="action-pill" bindtap="toggleCollect">
+        <text class="action-emoji">{{post.isCollected ? '⭐' : '☆'}}</text>
+        <text>{{post.collections || 0}}</text>
+      </view>
+      <view class="action-pill" bindtap="handleShareTap">
+        <text class="action-emoji">↗</text>
+        <text>分享</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="section-title">全部评论</view>
+
+  <view class="comment-list" wx:if="{{comments.length}}">
+    <view class="comment-card" wx:for="{{comments}}" wx:key="_id">
+      <view class="comment-avatar">
+        <text wx:if="{{!item.authorAvatar}}">{{item.authorInitial}}</text>
+        <image wx:else src="{{item.authorAvatar}}" mode="aspectFill" class="author-avatar-image"></image>
+      </view>
+      <view class="comment-body">
+        <view class="comment-head">
+          <view class="comment-name">{{item.authorName}}</view>
+          <view class="comment-time">{{item.createdAtText}}</view>
+        </view>
+        <view class="comment-text">{{item.content}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:elif="{{!loading}}">
+    <view class="empty-emoji">💬</view>
+    <view class="empty-title">还没有人留言</view>
+    <view class="empty-copy">你可以先写下这一刻的感受，让互动从这里开始。</view>
+  </view>
+
+  <view class="load-more" wx:if="{{hasMore && comments.length}}" bindtap="loadMoreComments">
+    <text>{{loadingComments ? '正在加载更多评论...' : '加载更多评论'}}</text>
+  </view>
+
+  <view class="composer-space"></view>
+
+  <view class="composer">
+    <input
+      class="composer-input"
+      placeholder="写下一句回应，让今天更有温度"
+      value="{{commentContent}}"
+      bindinput="updateCommentContent"
+      maxlength="200"
+    />
+    <button class="composer-button" bindtap="sendComment" disabled="{{!canSend || submitting}}">
+      {{submitting ? '发送中' : '发送'}}
+    </button>
+  </view>
+</view>

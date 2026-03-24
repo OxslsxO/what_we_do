@@ -1,0 +1,303 @@
+.page {
+  min-height: 100vh;
+  padding: 28rpx 24rpx 48rpx;
+  background:
+    radial-gradient(circle at top right, rgba(233, 226, 214, 0.88), transparent 26%),
+    linear-gradient(180deg, #faf8f3 0%, #fffdf9 56%, #f1ede6 100%);
+  box-sizing: border-box;
+}
+
+.hero-card,
+.invite-card,
+.action-card,
+.memory-card,
+.empty-box {
+  padding: 28rpx;
+  border-radius: 32rpx;
+  background: rgba(255, 252, 247, 0.92);
+  border: 1rpx solid rgba(218, 204, 181, 0.72);
+  box-shadow: 0 18rpx 36rpx rgba(140, 123, 94, 0.1);
+}
+
+.hero-kicker,
+.action-status,
+.memory-module {
+  font-size: 20rpx;
+  color: #8b7758;
+  letter-spacing: 2rpx;
+}
+
+.hero-title {
+  margin-top: 12rpx;
+  font-size: 52rpx;
+  font-weight: 700;
+  color: #5b4937;
+}
+
+.hero-copy,
+.card-copy,
+.empty-copy {
+  margin-top: 14rpx;
+  font-size: 24rpx;
+  line-height: 1.7;
+  color: #7c6b57;
+}
+
+.hero-badge-row,
+.notification-top,
+.notification-actions {
+  display: flex;
+  align-items: center;
+}
+
+.hero-badge-row {
+  gap: 12rpx;
+  margin-top: 18rpx;
+}
+
+.hero-badge,
+.hero-link,
+.notification-meta {
+  padding: 8rpx 18rpx;
+  border-radius: 999rpx;
+  font-size: 22rpx;
+}
+
+.hero-badge {
+  background: rgba(244, 217, 174, 0.38);
+  color: #8b6a46;
+}
+
+.hero-link {
+  color: #8b7758;
+  background: rgba(255, 255, 255, 0.6);
+}
+
+.section {
+  margin-top: 24rpx;
+}
+
+.section-title {
+  margin-bottom: 14rpx;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #5b4937;
+}
+
+.card-title,
+.empty-title {
+  margin-top: 12rpx;
+  font-size: 32rpx;
+  font-weight: 700;
+  color: #5b4937;
+}
+
+.notification-card {
+  padding: 24rpx;
+  border-radius: 30rpx;
+  background: rgba(255, 252, 247, 0.92);
+  border: 1rpx solid rgba(218, 204, 181, 0.72);
+  box-shadow: 0 18rpx 36rpx rgba(140, 123, 94, 0.08);
+}
+
+.notification-card + .notification-card {
+  margin-top: 16rpx;
+}
+
+.notification-top,
+.notification-actions {
+  justify-content: space-between;
+  gap: 14rpx;
+}
+
+.notification-title {
+  flex: 1;
+  font-size: 30rpx;
+  font-weight: 700;
+  color: #5b4937;
+}
+
+.notification-meta {
+  color: #9b7f5e;
+  background: rgba(244, 217, 174, 0.28);
+}
+
+.notification-meta-read {
+  color: #9f9588;
+  background: rgba(236, 231, 223, 0.7);
+}
+
+.notification-copy {
+  margin-top: 12rpx;
+  font-size: 24rpx;
+  line-height: 1.72;
+  color: #7c6b57;
+}
+
+.notification-actions {
+  margin-top: 18rpx;
+}
+
+.notification-time {
+  font-size: 22rpx;
+  color: #9a8973;
+}
+
+.action-row {
+  display: flex;
+  gap: 14rpx;
+  margin-top: 18rpx;
+}
+
+.warm-button,
+.ghost-button {
+  flex: 1;
+  border-radius: 999rpx;
+  font-size: 26rpx;
+  font-weight: 600;
+}
+
+.warm-button {
+  background: linear-gradient(135deg, #b89d7a, #d8c1a2);
+  color: #fffdfa;
+}
+
+.ghost-button {
+  background: rgba(250, 247, 240, 0.95);
+  color: #7a6549;
+  border: 1rpx solid rgba(205, 188, 161, 0.76);
+}
+
+.mini-button {
+  flex: 0 0 auto;
+  padding: 0 26rpx;
+}
+
+.invite-card + .invite-card,
+.action-card + .action-card,
+.memory-card + .memory-card {
+  margin-top: 16rpx;
+}
+
+.load-more {
+  margin-top: 14rpx;
+  text-align: center;
+  color: #8f7b64;
+  font-size: 24rpx;
+}
+
+/* 专项 Action 卡片样式 */
+.action-status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.action-module-tag {
+  font-size: 20rpx;
+  background: rgba(184, 157, 122, 0.1);
+  color: #8b7758;
+  padding: 4rpx 16rpx;
+  border-radius: 999rpx;
+}
+
+/* 投票箱 */
+.poll-box {
+  margin-top: 20rpx;
+  background: rgba(255, 255, 255, 0.5);
+  padding: 20rpx;
+  border-radius: 20rpx;
+  border: 1rpx solid rgba(218, 204, 181, 0.4);
+}
+
+.poll-option {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16rpx 0;
+}
+
+.poll-option + .poll-option {
+  border-top: 1rpx solid rgba(218, 204, 181, 0.2);
+}
+
+.poll-option-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.poll-option-name {
+  font-size: 26rpx;
+  color: #5b4937;
+  font-weight: 500;
+}
+
+.poll-option-votes {
+  font-size: 20rpx;
+  color: #9a8973;
+  margin-top: 4rpx;
+}
+
+.poll-vote-btn {
+  background: #b89d7a;
+  color: #fff;
+  font-size: 22rpx;
+  padding: 0 24rpx;
+  height: 54rpx;
+  line-height: 54rpx;
+  border-radius: 999rpx;
+  margin: 0;
+}
+
+.poll-voted {
+  background: #d8c1a2;
+  opacity: 0.8;
+}
+
+/* 投喂挑战 */
+.challenge-box {
+  margin-top: 20rpx;
+  background: linear-gradient(135deg, #fdf6ec 0%, #fff 100%);
+  padding: 30rpx;
+  border-radius: 24rpx;
+  border: 1rpx dashed #d8c1a2;
+  text-align: center;
+}
+
+.challenge-q {
+  font-size: 30rpx;
+  color: #5b4937;
+  font-weight: 700;
+  margin-bottom: 20rpx;
+  line-height: 1.5;
+}
+
+.challenge-status {
+  font-size: 22rpx;
+  color: #b89d7a;
+  font-style: italic;
+}
+
+.challenge-result {
+  font-size: 24rpx;
+  color: #27ae60;
+  font-weight: bold;
+}
+
+/* 心情盲盒 */
+.mood-box {
+  margin-top: 20rpx;
+  background: rgba(244, 217, 174, 0.1);
+  padding: 24rpx;
+  border-radius: 20rpx;
+  border-left: 8rpx solid #b89d7a;
+}
+
+.mood-vibe {
+  font-size: 26rpx;
+  color: #8b7758;
+  font-style: italic;
+  line-height: 1.6;
+}

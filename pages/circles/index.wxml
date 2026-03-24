@@ -1,0 +1,40 @@
+<view class="page">
+  <view class="hero">
+    <view class="hero-kicker">Micro-Circles</view>
+    <view class="hero-title">我的小圈子</view>
+    <view class="hero-copy">建立属于 4 人的互动空间，拽一条线，触碰 TA。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">活跃中的圈子</view>
+    <view class="circle-list" wx:if="{{circles.length}}">
+      <view class="circle-card" wx:for="{{circles}}" wx:key="_id" bindtap="goToCircle" data-id="{{item._id}}">
+        <view class="circle-info">
+          <view class="circle-name">{{item.name}}</view>
+          <view class="circle-members">
+            <image class="member-avatar" wx:for="{{item.members}}" wx:for-item="m" wx:key="user" src="{{m.user.userInfo.avatar}}"></image>
+            <view class="member-count">{{item.members.length}}/4</view>
+          </view>
+        </view>
+        <view class="circle-arrow">进入 →</view>
+      </view>
+    </view>
+    
+    <view class="empty-state" wx:else>
+      <view class="empty-copy">你还没有加入任何小圈子</view>
+      <button class="warm-button" bindtap="showCreateModal">创建第一个圈子</button>
+    </view>
+  </view>
+
+  <!-- 创建弹窗 -->
+  <view class="modal" wx:if="{{showCreate}}">
+    <view class="modal-content">
+      <view class="modal-title">创建一个属于你们的圈子</view>
+      <input class="field-input" placeholder="给圈子起个好听的名字" bindinput="onNameInput" />
+      <view class="modal-actions">
+        <button class="ghost-button" bindtap="hideCreateModal">取消</button>
+        <button class="warm-button" bindtap="createCircle">立即创建</button>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,24 @@
+<view class="page">
+  <view class="hero-card">
+    <view class="hero-kicker">Daily Laugh & Comfort</view>
+    <view class="hero-title">今天笑点啥</view>
+    <view class="hero-copy">有些情绪不需要讲道理，只需要发一张卡片让对方笑一下，或者只是想给对方送一个随时生效的安慰。</view>
+  </view>
+
+  <view class="task-card">
+    <view class="task-scene">{{currentCard.scene}}</view>
+    <view class="task-title">{{currentCard.title}}</view>
+    <view class="task-copy">{{currentCard.copy}}</view>
+
+    <view class="action-row">
+      <button class="ghost-button btn-ghost" bindtap="randomCard" hover-class="hover-opacity">换一张</button>
+      <button class="warm-button btn-primary" bindtap="sendCard" hover-class="hover-scale">{{relation ? '发给 TA' : '先建立关系'}}</button>
+    </view>
+  </view>
+
+  <view class="status-card" wx:if="{{latestAction}}">
+    <view class="status-label">已发送的情绪卡</view>
+    <view class="status-title">{{latestAction.title}}</view>
+    <view class="status-copy">{{latestAction.status === 'accepted' ? '对方按下了接受键，你们的情绪同频了一瞬间。' : '卡片已经送达，你可以等对方的笑脸回应。'}}</view>
+  </view>
+</view>

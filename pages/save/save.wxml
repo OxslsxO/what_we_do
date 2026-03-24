@@ -1,0 +1,32 @@
+<view class="page">
+  <view class="header">
+    <view class="back-btn" bindtap="goBack">←</view>
+    <view class="title">收藏与稍后</view>
+    <view class="placeholder"></view>
+  </view>
+
+  <view class="list" wx:if="{{posts.length}}">
+    <view class="card" wx:for="{{posts}}" wx:key="_id" data-post-id="{{item._id}}" bindtap="goToPost">
+      <image wx:if="{{item.mediaCover}}" class="cover" src="{{item.mediaCover}}" mode="aspectFill"></image>
+      <view class="card-body">
+        <view class="card-title">{{item.title}}</view>
+        <view class="card-summary">{{item.summary}}</view>
+        <view class="tag-row" wx:if="{{item.tags.length}}">
+          <view class="tag" wx:for="{{item.tags}}" wx:key="_id">{{item.name || item}}</view>
+        </view>
+        <view class="card-footer">
+          <view class="meta">{{item.createdAtText}}</view>
+          <view class="remove-btn" catchtap="toggleCollect" data-post-id="{{item._id}}">取消收藏</view>
+        </view>
+      </view>
+    </view>
+    <view class="loading-text" wx:if="{{loading}}">正在加载...</view>
+    <view class="loading-text" wx:elif="{{!hasMore}}">没有更多了</view>
+  </view>
+
+  <view class="empty" wx:else>
+    <view class="empty-icon">⭐</view>
+    <view class="empty-title">你还没有收藏任何内容</view>
+    <view class="empty-copy">看到喜欢的帖子先收藏起来，后面做决定的时候会方便很多。</view>
+  </view>
+</view>

@@ -1,0 +1,113 @@
+<view class="page">
+  <view class="hero-card">
+    <view class="hero-kicker">Message Center</view>
+    <view class="hero-title">动作消息中心</view>
+    <view class="hero-copy">这里收拢了邀请、回应、完成和回忆，不用再到处翻状态。</view>
+    <view class="hero-badge-row">
+      <view class="hero-badge">未读 {{unreadCount}}</view>
+      <view class="hero-link" bindtap="markAllRead">全部已读</view>
+      <view class="hero-link" bindtap="openMemoryWall">回忆墙</view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{notifications.length}}">
+    <view class="section-title">最新通知</view>
+    <view class="notification-card" wx:for="{{notifications}}" wx:key="_id">
+      <view class="notification-top">
+        <view class="notification-title">{{item.title}}</view>
+        <view class="notification-meta {{item.isRead ? 'notification-meta-read' : ''}}">{{item.isRead ? '已读' : '未读'}}</view>
+      </view>
+      <view class="notification-copy">{{item.content}}</view>
+      <view class="notification-actions">
+        <view class="notification-time">{{item.createdAtText}}</view>
+        <button class="ghost-button mini-button" wx:if="{{!item.isRead}}" data-notification-id="{{item._id}}" bindtap="markNotificationRead">标记已读</button>
+      </view>
+    </view>
+    <view class="load-more" wx:if="{{hasMoreNotifications}}" bindtap="loadMoreNotifications">
+      <text>{{loadingMore ? '正在加载更多通知...' : '加载更多通知'}}</text>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{pendingInvites.length}}">
+    <view class="section-title">待处理邀请</view>
+    <view class="invite-card" wx:for="{{pendingInvites}}" wx:key="_id">
+      <view class="card-title">{{item.partner.name || '有人'}} 邀请你建立关系</view>
+      <view class="card-copy">先确认关系，后面的吃喝玩乐和日常任务才能真正串起来。</view>
+      <view class="action-row">
+        <button class="ghost-button" data-relation-id="{{item._id}}" data-decision="decline" bindtap="respondInvite">暂不接受</button>
+        <button class="warm-button" data-relation-id="{{item._id}}" data-decision="accept" bindtap="respondInvite">接受邀请</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">待回应 / 待完成动作</view>
+      <view class="action-card" wx:for="{{pendingActions}}" wx:key="_id">
+        <view class="action-status-row">
+          <view class="action-module-tag">{{item.module === 'eat' ? '🍜 吃' : item.module === 'play' ? '🌿 玩' : item.module === 'photo' ? '📷 拍' : '✨ 动'}}</view>
+          <view class="action-status">{{item.status === 'accepted' ? '已回应，等待完成' : '等待回应'}}</view>
+        </view>
+        
+        <view class="card-title">{{item.title}}</view>
+        <view class="card-copy" wx:if="{{item.type !== 'date_poll' && item.type !== 'eat_challenge'}}">{{item.summary || item.message}}</view>
+
+        <!-- 投票约会卡渲染 -->
+        <view class="poll-box" wx:if="{{item.type === 'date_poll'}}">
+          <view class="poll-option" wx:for="{{item.payload.options}}" wx:for-item="opt" wx:for-index="optIdx" wx:key="name">
+            <view class="poll-option-info">
+              <text class="poll-option-name">{{opt.name}}</text>
+              <text class="poll-option-votes">{{opt.votes || 0}} 票</text>
+            </view>
+            <button class="poll-vote-btn {{item.payload.votes[userId] == optIdx ? 'poll-voted' : ''}}" 
+                    disabled="{{item.status === 'accepted'}}"
+                    data-action-id="{{item._id}}" 
+                    data-index="{{optIdx}}" 
+                    bindtap="handleVote">
+              {{item.payload.votes[userId] == optIdx ? '已投' : '投一票'}}
+            </button>
+          </view>
+        </view>
+
+        <!-- 投喂挑战卡渲染 -->
+        <view class="challenge-box" wx:if="{{item.type === 'eat_challenge'}}">
+          <view class="challenge-q">{{item.payload.question || '挑战即将开始...'}}</view>
+          <view class="challenge-status" wx:if="{{item.status === 'pending'}}">🔓 互动后解锁商家信息</view>
+          <view class="challenge-result" wx:if="{{item.status === 'accepted'}}">✅ 挑战成功！商家：{{item.payload.foodName}}</view>
+        </view>
+
+        <!-- 心情盲盒渲染 -->
+        <view class="mood-box" wx:if="{{item.type === 'mood_blindbox'}}">
+          <view class="mood-vibe">“{{item.summary}}”</view>
+        </view>
+
+        <view class="action-row" wx:if="{{!item.isMine && item.status === 'pending' && item.type !== 'date_poll' && item.type !== 'eat_challenge'}}">
+          <button class="ghost-button mini-button" data-action-id="{{item._id}}" data-decision="decline" bindtap="respondAction">换一个吧</button>
+          <button class="warm-button mini-button" data-action-id="{{item._id}}" data-decision="accept" bindtap="respondAction">我愿意</button>
+        </view>
+        
+        <!-- 挑战卡特定的回应按钮 -->
+        <view class="action-row" wx:if="{{!item.isMine && item.status === 'pending' && item.type === 'eat_challenge'}}">
+          <button class="warm-button mini-button" data-action-id="{{item._id}}" data-decision="accept" bindtap="respondAction">接受挑战并解锁</button>
+        </view>
+
+        <view class="action-row" wx:elif="{{item.status === 'accepted'}}">
+          <button class="warm-button mini-button" data-action-id="{{item._id}}" bindtap="completeAction">标记完成</button>
+        </view>
+      </view>
+
+    <view class="empty-box" wx:if="{{!pendingActions.length && !pendingInvites.length}}">
+      <view class="empty-title">现在没有待处理动作</view>
+      <view class="empty-copy">去关系空间或吃喝玩拍页里发起一个，会更有参与感。</view>
+      <button class="warm-button" bindtap="goToRelation">去关系空间</button>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{memories.length}}">
+    <view class="section-title">最近回忆</view>
+    <view class="memory-card" wx:for="{{memories}}" wx:key="_id" bindtap="openMemoryWall">
+      <view class="memory-module">{{item.module}}</view>
+      <view class="card-title">{{item.title}}</view>
+      <view class="card-copy">{{item.summary}}</view>
+    </view>
+  </view>
+</view>

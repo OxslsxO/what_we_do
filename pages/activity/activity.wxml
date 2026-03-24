@@ -1,0 +1,25 @@
+<view class="page">
+  <view class="hero-card">
+    <view class="hero-kicker">Daily Task</view>
+    <view class="hero-title">今天做点啥</view>
+    <view class="hero-copy">把抽象的陪伴变成今天就能完成的一个动作，关系会比聊天更有抓手。</view>
+  </view>
+
+  <view class="task-card">
+    <view class="task-scene">{{currentTask.scene}}</view>
+    <view class="task-title">{{currentTask.title}}</view>
+    <view class="task-copy">{{currentTask.copy}}</view>
+    <view class="task-duration">{{currentTask.duration}}</view>
+
+    <view class="action-row">
+      <button class="ghost-button btn-ghost" bindtap="randomTask" hover-class="hover-opacity">换一个任务</button>
+      <button class="warm-button btn-primary" bindtap="sendTask" hover-class="hover-scale">{{relation ? '发给 TA' : '先建立关系'}}</button>
+    </view>
+  </view>
+
+  <view class="status-card" wx:if="{{latestAction}}">
+    <view class="status-label">最新任务</view>
+    <view class="status-title">{{latestAction.title}}</view>
+    <view class="status-copy">{{latestAction.status === 'accepted' ? '对方已经回应，可以开始一起完成了。' : '任务已经送达，正在等待对方回应。'}}</view>
+  </view>
+</view>

@@ -1,0 +1,24 @@
+.circle-list { display: flex; flex-direction: column; gap: 24rpx; }
+.circle-card {
+  background: var(--card-bg-gradient);
+  padding: 32rpx;
+  border-radius: var(--radius-md);
+  border: 1rpx solid var(--border-light);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.circle-name { font-size: 32rpx; font-weight: 600; color: var(--text-main); margin-bottom: 16rpx; }
+.circle-members { display: flex; align-items: center; }
+.member-avatar { width: 48rpx; height: 48rpx; border-radius: 50%; border: 2rpx solid #fff; margin-right: -12rpx; }
+.member-count { margin-left: 24rpx; font-size: 24rpx; color: var(--text-sub); }
+.circle-arrow { font-size: 26rpx; color: var(--primary); font-weight: 500; }
+
+.modal {
+  position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100;
+}
+.modal-content { background: #fff; width: 80%; padding: 48rpx; border-radius: 32rpx; }
+.modal-title { font-size: 32rpx; font-weight: 600; margin-bottom: 32rpx; text-align: center; }
+.modal-actions { display: flex; gap: 20rpx; margin-top: 32rpx; }
+.modal-actions button { flex: 1; }

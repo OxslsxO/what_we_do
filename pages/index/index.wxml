@@ -1,0 +1,252 @@
+<view class="page">
+  <view class="hero-shell">
+    <view class="hero-glow hero-glow-left"></view>
+    <view class="hero-glow hero-glow-right"></view>
+
+    <view class="hero-card">
+      <view class="hero-top">
+        <view>
+          <view class="hero-date">{{dateText}}</view>
+          <view class="hero-title">今天干点啥</view>
+        </view>
+        <view class="hero-avatar">{{userInfo.name ? userInfo.name.slice(0, 1) : '今'}}</view>
+      </view>
+
+      <view class="hero-greeting">{{greeting}}</view>
+      <view class="hero-subtitle">把今天要做的事，变成有回应、有记忆的一天。</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view class="section-title">今天是什么心情</view>
+      <view class="section-link" bindtap="goToLove" hover-class="hover-opacity">去关系页</view>
+    </view>
+    <scroll-view scroll-x class="mood-scroll" show-scrollbar="{{false}}">
+      <view class="mood-row">
+        <view
+          wx:for="{{moodOptions}}"
+          wx:key="id"
+          class="mood-chip {{selectedMood === item.id ? 'mood-chip-active' : ''}}"
+          data-id="{{item.id}}"
+          bindtap="selectMood"
+          hover-class="hover-scale"
+        >
+          <text class="mood-emoji">{{item.emoji}}</text>
+          <text class="mood-label">{{item.label}}</text>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <view class="section">
+    <view class="gacha-banner" bindtap="goToGacha" hover-class="hover-scale" style="padding: 40rpx; display: flex; justify-content: space-between; align-items: center;">
+      <view>
+        <view class="gacha-banner-title" style="font-size: 36rpx; font-weight: bold; margin-bottom: 8rpx;">🎁 关系扭蛋机</view>
+        <view class="gacha-banner-sub" style="font-size: 26rpx;">今天还没摇？抽取你们的专属互动特权</view>
+      </view>
+      <view class="gacha-banner-btn" style="font-size: 26rpx; font-weight: bold; padding: 16rpx 32rpx; border-radius: 100rpx;">去摇一张</view>
+    </view>
+    
+    <!-- 4人小圈子客厅 -->
+    <view class="circles-mini" bindtap="goToCircles" hover-class="hover-opacity" style="background: rgba(230, 212, 183, 0.15); border: 1rpx solid rgba(221, 192, 149, 0.35); padding: 32rpx; border-radius: 30rpx; margin-top: 16rpx; display: flex; justify-content: space-between; align-items: center;">
+      <view>
+        <view style="font-size: 28rpx; font-weight: 600; color: #5d4634;">⭕ 4人小圈子客厅</view>
+        <view style="font-size: 22rpx; color: #8a725b;">建立拽线互动的极简社交空间</view>
+      </view>
+      <view style="font-size: 24rpx; color: #a37c4f; font-weight: 600;">去客厅 →</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view class="section-title">关系状态</view>
+      <view class="section-link" bindtap="goToLove" hover-class="hover-opacity">查看全部</view>
+    </view>
+
+    <view class="relation-card" wx:if="{{relation}}">
+      <view class="relation-main">
+        <view class="relation-badge">关系进行中</view>
+        <view class="relation-name">{{relation.partner.name || 'TA'}}</view>
+        <view class="relation-note">
+          已建立 {{quickStats.completedCount || 0}} 次共同完成记录，最近互动一直在增长。
+        </view>
+      </view>
+
+      <view class="relation-stats">
+        <view class="stat-pill">
+          <view class="stat-value">{{quickStats.actionsCount || 0}}</view>
+          <view class="stat-label">发起动作</view>
+        </view>
+        <view class="stat-pill">
+          <view class="stat-value">{{quickStats.completedCount || 0}}</view>
+          <view class="stat-label">共同完成</view>
+        </view>
+        <view class="stat-pill">
+          <view class="stat-value">{{quickStats.memoryCount || 0}}</view>
+          <view class="stat-label">回忆沉淀</view>
+        </view>
+      </view>
+
+      <view class="relation-alert" wx:if="{{notificationSummary.unreadCount || notificationSummary.recentNotifications.length}}" bindtap="goToChat" hover-class="hover-scale">
+        <view class="relation-alert-badge">未读 {{notificationSummary.unreadCount || 0}}</view>
+        <view class="relation-alert-copy">
+          {{notificationSummary.recentNotifications.length ? notificationSummary.recentNotifications[0].title : '动作消息会出现在这里'}}
+        </view>
+      </view>
+    </view>
+
+    <view class="relation-empty" wx:else>
+      <view class="relation-empty-title">先绑定一个恋人或搭子</view>
+      <view class="relation-empty-copy">
+        你选中的吃喝玩乐，不该只是收藏，它应该有人回应、有人一起完成。
+      </view>
+      <button class="warm-button btn-primary" bindtap="openInviteModal" hover-class="hover-scale">发起关系邀请</button>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view class="section-title">今天做什么</view>
+      <view class="section-link" bindtap="goToDiscover" hover-class="hover-opacity">去发现</view>
+    </view>
+    <view class="module-grid">
+      <view class="module-card module-card-eat" bindtap="goToEat" hover-class="hover-scale">
+        <view class="module-tag">高频刚需</view>
+        <view class="module-icon">🍜</view>
+        <view class="module-title">今天吃点啥</view>
+        <view class="module-copy">随机推荐、发给 TA、一起完成，再把今天记下来。</view>
+      </view>
+      <view class="module-card module-card-play" bindtap="goToPlay" hover-class="hover-scale">
+        <view class="module-tag">周末灵感</view>
+        <view class="module-icon">🌿</view>
+        <view class="module-title">今天玩点啥</view>
+        <view class="module-copy">给今晚和周末一点新鲜感，别让时间只剩下刷手机。</view>
+      </view>
+      <view class="module-card module-card-photo" bindtap="goToPhoto" hover-class="hover-scale">
+        <view class="module-tag">内容引擎</view>
+        <view class="module-icon">📷</view>
+        <view class="module-title">今天拍点啥</view>
+        <view class="module-copy">拍一张有温度的画面，今天就会多一个被记住的理由。</view>
+      </view>
+      <view class="module-card module-card-activity" bindtap="goToActivity" hover-class="hover-scale">
+        <view class="module-tag">轻任务系统</view>
+        <view class="module-icon">🗂</view>
+        <view class="module-title">今天做点啥</view>
+        <view class="module-copy">给今天一件能马上开始的小事，让陪伴、整理和行动都有落点。</view>
+      </view>
+      <view class="module-card module-card-laugh" bindtap="goToLaugh" hover-class="hover-scale">
+        <view class="module-tag">情绪缓冲卡</view>
+        <view class="module-icon">🎈</view>
+        <view class="module-title">今天笑点啥</view>
+        <view class="module-copy">如果觉得累了没心思做别的，发一张情绪卡片让对方笑一下就够了。</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{pendingActions.length}}">
+    <view class="section-head">
+      <view class="section-title">待回应 / 待完成</view>
+      <view class="section-link" bindtap="viewAllActions" hover-class="hover-opacity">全部动作</view>
+    </view>
+    <view class="action-list">
+      <view class="action-card" wx:for="{{pendingActions}}" wx:key="_id" bindtap="goToChat" hover-class="hover-scale">
+        <view class="action-status">{{item.status === 'accepted' ? '已回应' : '待回应'}}</view>
+        <view class="action-title">{{item.title}}</view>
+        <view class="action-summary">{{item.summary || item.message}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-head">
+      <view class="section-title">系统给你的建议</view>
+      <view class="section-link" bindtap="goToEat" hover-class="hover-opacity">先试一个</view>
+    </view>
+    <view class="recommendation-list">
+      <view
+        wx:for="{{todayRecommendations}}"
+        wx:key="title"
+        class="recommendation-card"
+        data-module="{{item.module}}"
+        bindtap="handleRecommendationTap"
+        hover-class="hover-scale"
+      >
+        <view class="recommendation-title">{{item.title}}</view>
+        <view class="recommendation-summary">{{item.summary}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{recentMemories.length}}">
+    <view class="section-head">
+      <view class="section-title">最近回忆</view>
+      <view class="section-link" bindtap="viewAllMemories" hover-class="hover-opacity">去翻翻</view>
+    </view>
+    <view class="memory-list">
+      <view class="memory-card" wx:for="{{recentMemories}}" wx:key="_id" bindtap="goToMemories" hover-class="hover-scale">
+        <view class="memory-kicker">{{item.module}}</view>
+        <view class="memory-title">{{item.title}}</view>
+        <view class="memory-summary">{{item.summary}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="modal-mask" wx:if="{{showInviteModal}}" bindtap="closeInviteModal">
+    <view class="modal-card" bindtap="stopPropagation">
+      <view class="modal-title">发起关系邀请</view>
+      <view class="modal-copy">先把关系建立起来，后面的“发给 TA”“等回应”“留回忆”才会真正连起来。</view>
+
+      <view class="type-row">
+        <view
+          class="type-chip {{inviteForm.relationType === 'lover' ? 'type-chip-active' : ''}}"
+          data-type="lover"
+          bindtap="selectRelationType"
+        >恋人</view>
+        <view
+          class="type-chip {{inviteForm.relationType === 'buddy' ? 'type-chip-active' : ''}}"
+          data-type="buddy"
+          bindtap="selectRelationType"
+        >搭子</view>
+        <view
+          class="type-chip {{inviteForm.relationType === 'bestie' ? 'type-chip-active' : ''}}"
+          data-type="bestie"
+          bindtap="selectRelationType"
+        >闺蜜/好友</view>
+      </view>
+
+      <view class="field-label">对方手机号</view>
+      <input class="field-input" placeholder="输入对方注册时的手机号" value="{{inviteForm.phone}}" data-field="phone" bindinput="updateInviteForm" />
+
+      <view class="field-label">纪念日</view>
+      <input class="field-input" placeholder="比如 2026-03-23，可先留空" value="{{inviteForm.anniversary}}" data-field="anniversary" bindinput="updateInviteForm" />
+
+      <view class="field-label">备注</view>
+      <textarea class="field-textarea" placeholder="写一句邀请说明，会更有温度" value="{{inviteForm.notes}}" data-field="notes" bindinput="updateInviteForm"></textarea>
+
+      <view class="modal-actions">
+        <button class="ghost-button btn-ghost" bindtap="closeInviteModal" hover-class="hover-opacity">取消</button>
+        <button class="warm-button btn-primary" bindtap="submitInvite" hover-class="hover-scale">发送邀请</button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 心情盲盒弹窗 -->
+  <view class="modal-mask" wx:if="{{showMoodModal}}" bindtap="closeMoodModal">
+    <view class="modal-card" bindtap="stopPropagation" style="background: linear-gradient(135deg, #fff 0%, #f9fdfc 100%);">
+      <view class="modal-title" style="color: #2c3e50;">✨ 今日心情盲盒</view>
+      <view class="modal-copy" style="margin-bottom: 40rpx;">已经为你准备好了今日专属建议：</view>
+      
+      <view class="recommendation-vibe" style="background: rgba(46, 204, 113, 0.05); padding: 40rpx; border-radius: 24rpx; border: 1rpx dashed #2ecc71; margin-bottom: 40rpx;">
+        <view style="font-size: 30rpx; line-height: 1.6; color: #27ae60; font-style: italic;">
+          “{{moodRecommendation}}”
+        </view>
+      </view>
+
+      <view class="modal-actions">
+        <button class="ghost-button btn-ghost" bindtap="closeMoodModal" hover-class="hover-opacity">再想想</button>
+        <button class="warm-button btn-primary" bindtap="sendMoodToPartner" hover-class="hover-scale">发给Ta</button>
+      </view>
+    </view>
+  </view>
+</view>

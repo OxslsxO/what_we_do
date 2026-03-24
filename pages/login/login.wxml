@@ -1,0 +1,75 @@
+<!--pages/login/login.wxml-->
+<view class="container">
+  <view class="login-card">
+    <view class="login-header">
+      <text class="login-title">登录点啥</text>
+    </view>
+    
+
+    
+    <!-- 登录表单 -->
+    <view class="login-form">
+      <!-- 手机号输入 -->
+      <view class="form-item">
+        <view class="input-wrapper">
+          <text class="input-label">手机号：</text>
+          <input 
+            class="input" 
+            placeholder="请输入手机号" 
+            placeholder-class="placeholder" 
+            value="{{phone}}" 
+            bindinput="handlePhoneInput" 
+            maxlength="11"
+            type="number"
+          />
+        </view>
+        <text class="error-message" wx:if="errors.phone">{{errors.phone}}</text>
+      </view>
+      
+
+      
+      <!-- 验证码输入 -->
+      <view class="form-item">
+        <view class="input-wrapper">
+          <text class="input-label">验证码：</text>
+          <input 
+            class="input code-input-field" 
+            placeholder="请输入验证码" 
+            placeholder-class="placeholder" 
+            value="{{code}}" 
+            bindinput="handleCodeInput" 
+            maxlength="6"
+            type="number"
+          />
+          <button 
+            class="code-btn" 
+            bindtap="sendCode" 
+            disabled="{{countdown > 0}}"
+          >
+            {{countdown > 0 ? countdown + 's' : '获取验证码'}}
+          </button>
+        </view>
+        <text class="error-message" wx:if="errors.code">{{errors.code}}</text>
+      </view>
+      
+      <!-- 登录按钮 -->
+      <button 
+        class="login-btn" 
+        bindtap="handleLogin" 
+        loading="{{loading}}"
+        disabled="{{loading}}"
+      >
+        登录
+      </button>
+      
+
+    </view>
+    
+
+  </view>
+  
+  <!-- 错误提示 -->
+  <view class="toast" wx:if="{{showToast}}">
+    <text>{{toastMessage}}</text>
+  </view>
+</view>

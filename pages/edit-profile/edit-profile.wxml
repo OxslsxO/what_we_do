@@ -1,0 +1,88 @@
+<!--pages/edit-profile/edit-profile.wxml-->
+<view class="container">
+  <view class="header">
+    <text class="title">编辑资料</text>
+    <button class="save-btn" bindtap="saveProfile" loading="{{loading}}" disabled="{{loading}}">
+      保存
+    </button>
+  </view>
+  
+  <view class="form">
+    <!-- 头像 -->
+    <view class="form-item">
+      <text class="label">头像</text>
+      <view class="avatar-uploader">
+        <image class="avatar" src="{{formData.avatar || '../../images/default-avatar.png'}}" mode="aspectFill"></image>
+        <view class="avatar-upload-btn" bindtap="chooseAvatar">
+          <text>更换头像</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 昵称 -->
+    <view class="form-item">
+      <text class="label">昵称</text>
+      <input 
+        class="input" 
+        placeholder="请输入昵称" 
+        value="{{formData.name}}" 
+        bindinput="handleNameInput"
+        bindblur="handleNameBlur"
+        maxlength="20"
+      />
+      <text class="error-message" wx:if="errors.name">{{errors.name}}</text>
+    </view>
+    
+    <!-- 性别 -->
+    <view class="form-item">
+      <text class="label">性别</text>
+      <view class="gender-selector" wx:if="!genderSet">
+        <view class="gender-option {{formData.gender === 'male' ? 'active' : ''}}" bindtap="selectGender" data-gender="male">
+          <text>男</text>
+        </view>
+        <view class="gender-option {{formData.gender === 'female' ? 'active' : ''}}" bindtap="selectGender" data-gender="female">
+          <text>女</text>
+        </view>
+        <view class="gender-option {{formData.gender === 'other' ? 'active' : ''}}" bindtap="selectGender" data-gender="other">
+          <text>其他</text>
+        </view>
+      </view>
+      <view class="gender-display" wx:else>
+        <text>{{genderText}}</text>
+        <text class="hint">性别一旦设置，不可修改</text>
+      </view>
+      <text class="error-message" wx:if="errors.gender">{{errors.gender}}</text>
+    </view>
+    
+    <!-- 生日 -->
+    <view class="form-item">
+      <text class="label">生日</text>
+      <view class="date-picker">
+        <picker mode="date" value="{{formData.birthday}}" start="1900-01-01" end="{{currentDate}}" bindchange="handleDateChange">
+          <view class="picker-text">{{formData.birthday || '请选择生日'}}</view>
+        </picker>
+      </view>
+      <text class="error-message" wx:if="errors.birthday">{{errors.birthday}}</text>
+    </view>
+    
+    <!-- 个性签名 -->
+    <view class="form-item">
+      <text class="label">个性签名</text>
+      <textarea 
+        class="textarea" 
+        placeholder="请输入个性签名" 
+        value="{{formData.desc}}" 
+        bindinput="handleDescInput"
+        maxlength="100"
+        placeholder-class="placeholder"
+      />
+      <text class="error-message" wx:if="errors.desc">{{errors.desc}}</text>
+      <text class="count">{{formData.desc.length || 0}}/100</text>
+    </view>
+  </view>
+  
+  <!-- 错误提示 -->
+  <view class="toast" wx:if="showToast">
+    <text>{{toastMessage}}</text>
+  </view>
+</view>

@@ -1,0 +1,92 @@
+page {
+  /* Overwrite App variables for Play Page - Warm Green */
+  --primary: #8EB376;
+  --primary-light: #CDE6B7;
+  --primary-gradient: linear-gradient(135deg, #A8C992 0%, #8EB376 100%);
+  --bg-color: #FAFCF7;
+  --card-bg-gradient: linear-gradient(135deg, rgba(252, 255, 248, 1) 0%, rgba(248, 252, 243, 0.95) 100%);
+  --shadow-primary: 0 12rpx 24rpx rgba(142, 179, 118, 0.3);
+}
+
+.page {
+  min-height: 100vh;
+  padding: 32rpx 24rpx 52rpx;
+  box-sizing: border-box;
+}
+
+/* Base Cards */
+.hero-card,
+.idea-card,
+.status-card {
+  padding: 40rpx 36rpx;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg-gradient);
+  border: 1rpx solid var(--border-light);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 32rpx;
+}
+
+/* Typography */
+.hero-kicker,
+.status-label {
+  font-size: 22rpx;
+  color: var(--primary);
+  letter-spacing: 2rpx;
+  font-weight: 500;
+}
+
+.hero-title,
+.idea-title,
+.status-title {
+  margin-top: 16rpx;
+  font-size: 52rpx;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.hero-copy,
+.idea-copy,
+.status-copy {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: var(--text-sub);
+}
+
+/* Specific elements */
+.idea-vibe {
+  display: inline-block;
+  padding: 10rpx 24rpx;
+  border-radius: var(--radius-round);
+  background: rgba(142, 179, 118, 0.12);
+  color: var(--primary);
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.meta-row,
+.action-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 28rpx;
+  flex-wrap: wrap;
+}
+
+.meta-pill {
+  padding: 14rpx 24rpx;
+  border-radius: var(--radius-round);
+  background: var(--bg-color);
+  border: 1rpx solid #EAF2E3;
+  font-size: 24rpx;
+  color: var(--text-sub);
+}
+
+.action-row {
+  margin-top: 40rpx;
+}
+
+.warm-button,
+.ghost-button {
+  flex: 1;
+  padding: 24rpx 0;
+}

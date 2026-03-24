@@ -1,0 +1,178 @@
+<wxs module="stack">
+  function getStyle(index, current) {
+    var diff = index - current;
+    var absDiff = Math.abs(diff);
+    var direction = diff === 0 ? 0 : diff > 0 ? 1 : -1;
+    var offsetX = 0;
+    var offsetY = 0;
+    var scale = 1;
+    var opacity = 1;
+    var zIndex = 12;
+
+    if (absDiff === 0) {
+      offsetX = 0;
+      offsetY = 0;
+      scale = 1.06;
+      opacity = 1;
+      zIndex = 20;
+    } else if (absDiff <= 1) {
+      offsetX = direction * 96 * absDiff;
+      offsetY = 12 * absDiff;
+      scale = 1 - absDiff * 0.08;
+      opacity = 1 - absDiff * 0.08;
+      zIndex = 18 - absDiff;
+    } else if (absDiff <= 2) {
+      offsetX = direction * (96 + (absDiff - 1) * 98);
+      offsetY = 12 + (absDiff - 1) * 14;
+      scale = 0.92 - (absDiff - 1) * 0.06;
+      opacity = 0.92 - (absDiff - 1) * 0.1;
+      zIndex = 16 - absDiff;
+    } else if (absDiff <= 3) {
+      offsetX = direction * (194 + (absDiff - 2) * 94);
+      offsetY = 26 + (absDiff - 2) * 14;
+      scale = 0.86 - (absDiff - 2) * 0.05;
+      opacity = 0.82 - (absDiff - 2) * 0.12;
+      zIndex = 14 - absDiff;
+    } else if (absDiff <= 4) {
+      offsetX = direction * (288 + (absDiff - 3) * 88);
+      offsetY = 40 + (absDiff - 3) * 12;
+      scale = 0.81 - (absDiff - 3) * 0.04;
+      opacity = 0.7 - (absDiff - 3) * 0.14;
+      zIndex = 12 - absDiff;
+    } else {
+      offsetX = direction * 376;
+      offsetY = 52;
+      scale = 0.77;
+      opacity = 0;
+      zIndex = 1;
+    }
+
+    return 'transform: translate3d(' + offsetX + 'rpx, ' + offsetY + 'rpx, 0) scale(' + scale + ');' +
+      'opacity:' + opacity + ';' +
+      'z-index:' + zIndex + ';';
+  }
+
+  module.exports = {
+    getStyle: getStyle
+  };
+</wxs>
+
+<view class="page">
+  <view class="hero">
+    <view class="hero-copy">
+      <view class="hero-kicker">Discover Daily Moments</view>
+      <view class="hero-title">发现页</view>
+      <view class="hero-subtitle">
+        这里展示的不是泛内容，而是大家把今天真正做过的事留了下来。看见灵感，也看见生活被回应的样子。
+      </view>
+    </view>
+    <button class="hero-button" bindtap="goToPublish">发布今天</button>
+  </view>
+
+  <view class="feed-list" wx:if="{{posts.length}}">
+    <view class="post-card" wx:for="{{posts}}" wx:key="_id" wx:for-item="post">
+      <view class="post-top">
+        <view class="badge-row">
+          <view class="module-badge">{{post.moduleLabel}}</view>
+          <view class="template-badge">{{post.templateLabel}}</view>
+        </view>
+        <view class="detail-link" bindtap="goToPost" data-post-id="{{post._id}}">展开详情</view>
+      </view>
+
+      <view class="author-row">
+        <view class="author-avatar">
+          <text wx:if="{{!post.authorAvatar}}">{{post.authorInitial}}</text>
+          <image wx:else src="{{post.authorAvatar}}" mode="aspectFill" class="author-avatar-image"></image>
+        </view>
+        <view class="author-info">
+          <view class="author-name">{{post.authorName}}</view>
+          <view class="author-meta">{{post.createdAtText}}</view>
+        </view>
+      </view>
+
+      <view class="content-shell" bindtap="goToPost" data-post-id="{{post._id}}">
+        <view class="post-title" wx:if="{{post.title}}">{{post.title}}</view>
+        <view class="post-summary" wx:if="{{post.summary}}">{{post.summary}}</view>
+        <view class="post-content">{{post.contentPreview}}</view>
+      </view>
+
+      <view class="post-media" wx:if="{{post.mediaList.length > 0}}">
+        <view
+          class="media-stack-shell"
+          data-key="{{post._id}}_media"
+          data-total="{{post.mediaList.length}}"
+          bindtouchstart="handleMediaTouchStart"
+          bindtouchmove="handleMediaTouchMove"
+          bindtouchend="handleMediaTouchEnd"
+          bindtouchcancel="handleMediaTouchEnd"
+        >
+          <view class="media-stack-visual">
+            <view class="media-center-frame {{motionState[post._id + '_media'] ? 'is-hidden' : ''}}"></view>
+            <view
+              wx:for="{{post.mediaList}}"
+              wx:key="index"
+              class="media-stack-card"
+              style="{{stack.getStyle(index, currentPosition[post._id + '_media'] || 0)}}"
+            >
+              <image
+                wx:if="{{item.type === 'image'}}"
+                src="{{item.url}}"
+                mode="aspectFit"
+                class="media-card-content"
+              ></image>
+              <video
+                wx:else
+                src="{{item.url}}"
+                object-fit="contain"
+                controls
+                class="media-card-content media-video"
+              ></video>
+            </view>
+          </view>
+        </view>
+
+        <view class="media-indicators" wx:if="{{post.mediaList.length > 1}}">
+          <view
+            wx:for="{{post.mediaList}}"
+            wx:key="index"
+            class="indicator {{index === (currentIndex[post._id + '_media'] || 0) ? 'active' : ''}}"
+          ></view>
+        </view>
+      </view>
+
+      <view class="tag-row" wx:if="{{post.tagNames.length}}">
+        <view class="tag-chip" wx:for="{{post.tagNames}}" wx:key="index">#{{item}}</view>
+      </view>
+
+      <view class="action-row">
+        <view class="action-pill" bindtap="handleLike" data-post-id="{{post._id}}">
+          <text class="action-emoji">{{post.isLiked ? '❤️' : '🤍'}}</text>
+          <text>{{post.likes || 0}}</text>
+        </view>
+        <view class="action-pill" bindtap="goToComment" data-post-id="{{post._id}}">
+          <text class="action-emoji">💬</text>
+          <text>{{post.comments || 0}}</text>
+        </view>
+        <view class="action-pill" bindtap="handleCollect" data-post-id="{{post._id}}">
+          <text class="action-emoji">{{post.isCollected ? '⭐' : '☆'}}</text>
+          <text>{{post.collections || 0}}</text>
+        </view>
+        <view class="action-pill" bindtap="handleShare" data-post-id="{{post._id}}" data-title="{{post.title || post.summary || '发现今天的生活灵感'}}">
+          <text class="action-emoji">↗</text>
+          <text>分享</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view class="load-more" wx:if="{{hasMore && posts.length}}" bindtap="loadMorePosts">
+    <text>{{loading ? '正在加载...' : '加载更多'}}</text>
+  </view>
+
+  <view class="empty-state" wx:if="{{!posts.length && !loading}}">
+    <view class="empty-emoji">🌤</view>
+    <view class="empty-title">发现页还没有被填满</view>
+    <view class="empty-copy">先去发布一条今天的记录，等更多生活被看见。</view>
+    <button class="empty-button" bindtap="goToPublish">去发布</button>
+  </view>
+</view>

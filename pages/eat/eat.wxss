@@ -1,0 +1,294 @@
+.page {
+  min-height: 100vh;
+  padding: 32rpx 24rpx 52rpx;
+  box-sizing: border-box;
+}
+
+/* Base Cards Structure */
+.hero-card,
+.section,
+.food-card,
+.action-status-card,
+.recipe-card,
+.modal-card {
+  border-radius: var(--radius-lg);
+}
+
+/* Hero */
+.hero-card {
+  padding: 40rpx 36rpx;
+  background: var(--card-bg-gradient);
+  border: 1rpx solid var(--border-light);
+  box-shadow: var(--shadow-soft);
+}
+
+.hero-kicker {
+  font-size: 22rpx;
+  color: var(--primary);
+  letter-spacing: 2rpx;
+  font-weight: 500;
+}
+
+.hero-title {
+  margin-top: 16rpx;
+  font-size: 52rpx;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.hero-copy {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: var(--text-sub);
+}
+
+/* Sections */
+.section {
+  margin-top: 40rpx;
+}
+
+.section-title {
+  margin-bottom: 24rpx;
+  font-size: 32rpx;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+/* Chips */
+.chip-scroll {
+  white-space: nowrap;
+  margin-bottom: 20rpx;
+}
+
+.chip-row {
+  display: inline-flex;
+  gap: 16rpx;
+  padding-right: 12rpx;
+}
+
+.filter-chip,
+.tag-chip,
+.type-chip {
+  padding: 16rpx 28rpx;
+  border-radius: var(--radius-round);
+  background: var(--card-bg);
+  border: 1rpx solid var(--border-light);
+  font-size: 26rpx;
+  color: var(--text-sub);
+  transition: all 0.2s ease-out;
+}
+
+.filter-chip-active,
+.type-chip-active {
+  background: rgba(255, 154, 118, 0.1);
+  color: var(--primary);
+  border-color: var(--primary-light);
+  font-weight: 500;
+  box-shadow: 0 4rpx 16rpx rgba(255, 154, 118, 0.12);
+}
+
+/* Buttons */
+.warm-button {
+  margin-top: 24rpx;
+  display: block;
+}
+
+.soft-button {
+  background: var(--bg-color);
+  color: var(--text-sub);
+  border: 1rpx solid var(--border-light);
+  border-radius: var(--radius-round);
+  font-size: 28rpx;
+  font-weight: 600;
+  padding: 20rpx 0;
+  box-shadow: none;
+}
+
+.mini-warm {
+  margin: 0;
+  padding: 20rpx 0;
+}
+
+/* Food Card */
+.food-card,
+.action-status-card,
+.recipe-card {
+  padding: 32rpx;
+  background: var(--card-bg);
+  border: 1rpx solid var(--border-light);
+  box-shadow: var(--shadow-soft);
+}
+
+.food-media {
+  width: 100%;
+  height: 480rpx;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  background: linear-gradient(135deg, #FAF7F2 0%, #F5F0E6 100%);
+  position: relative;
+}
+
+.food-media image {
+  width: 100%;
+  height: 100%;
+}
+
+.food-media-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.placeholder-inner {
+  text-align: center;
+}
+
+.placeholder-icon {
+  font-size: 80rpx;
+}
+
+.placeholder-copy {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  color: var(--text-light);
+}
+
+.food-name,
+.status-title {
+  margin-top: 24rpx;
+  font-size: 44rpx;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.food-reason,
+.status-copy,
+.recipe-content,
+.modal-copy {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: var(--text-sub);
+}
+
+.tag-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-top: 24rpx;
+}
+
+.tag-chip {
+  background: rgba(255, 253, 246, 0.85);
+  border-color: #EFEFEF;
+}
+
+.action-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 20rpx;
+  margin-top: 36rpx;
+}
+
+/* Action Status */
+.status-label {
+  font-size: 22rpx;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* Recipe Content */
+.recipe-content {
+  white-space: pre-wrap;
+  color: var(--text-main);
+}
+
+/* Modal Pattern Matches Index */
+.modal-mask {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32rpx;
+  background: rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(8rpx);
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal-card {
+  width: 100%;
+  padding: 40rpx;
+  background: var(--card-bg);
+  box-shadow: 0 24rpx 60rpx rgba(0, 0, 0, 0.15);
+  box-sizing: border-box;
+  animation: slideUp 0.3s ease-out;
+}
+
+.modal-title {
+  font-size: 40rpx;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.field-label {
+  margin-top: 32rpx;
+  margin-bottom: 16rpx;
+  font-size: 26rpx;
+  font-weight: 500;
+  color: var(--text-main);
+}
+
+.field-input,
+.field-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24rpx 32rpx;
+  border-radius: var(--radius-md);
+  border: 1rpx solid #EBEBEB;
+  background: var(--bg-color);
+  font-size: 28rpx;
+  color: var(--text-main);
+  transition: border-color 0.3s ease;
+}
+
+.field-input:focus,
+.field-textarea:focus {
+  border-color: var(--primary-light);
+  background: #FFFFFF;
+}
+
+.field-textarea {
+  min-height: 200rpx;
+}
+
+.type-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16rpx;
+  margin-top: 12rpx;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 40rpx;
+}
+
+.modal-actions .warm-button,
+.modal-actions .ghost-button {
+  flex: 1;
+  margin-top: 0;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(40rpx); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}

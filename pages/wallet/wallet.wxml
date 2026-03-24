@@ -1,0 +1,28 @@
+<view class="page">
+  <view class="wallet-header">
+    <view class="wallet-title">我的券包</view>
+    <view class="wallet-desc">在这里向 TA 兑现你的特权</view>
+  </view>
+
+  <view class="empty-state" wx:if="{{!coupons.length}}">
+    <view style="font-size: 80rpx; margin-bottom: 20rpx;">🥺</view>
+    <view>券包空空的，快去扭蛋机抽一张吧</view>
+  </view>
+
+  <view class="coupon-list" wx:else>
+    <view class="coupon-card {{item.used ? 'used' : ''}}" wx:for="{{coupons}}" wx:key="id">
+      <view class="coupon-left bg-{{item.rarity.toLowerCase()}}">{{item.rarity}}级特权</view>
+      <view class="coupon-body">
+        <view class="coupon-title">{{item.title}}</view>
+        <view class="coupon-desc">{{item.desc}}</view>
+        
+        <view class="coupon-footer">
+          <view class="coupon-date">获取于: {{item.dateString}}</view>
+          <button class="use-btn {{item.used ? 'disabled' : ''}}" catchtap="useCoupon" data-id="{{item.id}}" disabled="{{item.used}}">
+            {{item.used ? '已核销' : '立即核销'}}
+          </button>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

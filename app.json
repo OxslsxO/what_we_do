@@ -1,0 +1,70 @@
+{
+  "lazyCodeLoading": "requiredComponents",
+  "pages": [
+    "pages/index/index",
+    "pages/login/login",
+    "pages/register/register",
+    "pages/forgot-password/forgot-password",
+    "pages/eat/eat",
+    "pages/play/play",
+    "pages/activity/activity",
+    "pages/photo/photo",
+    "pages/discover/discover",
+    "pages/post/post",
+    "pages/comment/comment",
+    "pages/publish/publish",
+    "pages/save/save",
+    "pages/my-posts/my-posts",
+    "pages/profile/profile",
+    "pages/edit-profile/edit-profile",
+    "pages/settings/settings",
+    "pages/help/help",
+    "pages/about/about",
+    "pages/laugh/laugh",
+    "pages/gacha/gacha",
+    "pages/wallet/wallet",
+    "pages/love/love",
+    "pages/chat/chat",
+    "pages/memories/memories",
+    "pages/webview/webview",
+    "pages/circles/index",
+    "pages/circles/detail"
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#fffaf4",
+    "navigationBarTitleText": "今天干点啥",
+    "navigationBarTextStyle": "black"
+  },
+  "tabBar": {
+    "color": "#9d8a73",
+    "selectedColor": "#de945d",
+    "backgroundColor": "#fffdf9",
+    "borderStyle": "black",
+    "list": [
+      {
+        "pagePath": "pages/index/index",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/discover/discover",
+        "text": "发现"
+      },
+      {
+        "pagePath": "pages/love/love",
+        "text": "关系"
+      },
+      {
+        "pagePath": "pages/profile/profile",
+        "text": "我的"
+      }
+    ]
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "permission": {
+    "scope.userLocation": {
+      "desc": "用于获取用户位置信息"
+    }
+  }
+}

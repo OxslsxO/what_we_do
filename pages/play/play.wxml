@@ -1,0 +1,30 @@
+<view class="page">
+  <view class="hero-card">
+    <view class="hero-kicker">Play Engine</view>
+    <view class="hero-title">今天玩点啥</view>
+    <view class="hero-copy">从今晚到周末，给自己一个不无聊的安排，也给关系一个可以发生的入口。</view>
+  </view>
+
+  <view class="idea-card">
+    <view class="idea-vibe">{{currentIdea.vibe}}</view>
+    <view class="idea-title">{{currentIdea.title}}</view>
+    <view class="idea-copy">{{currentIdea.copy}}</view>
+
+    <view class="meta-row">
+      <view class="meta-pill">{{currentIdea.duration}}</view>
+      <view class="meta-pill">{{currentIdea.budget}}</view>
+    </view>
+
+    <view class="action-row">
+      <button class="ghost-button btn-ghost" bindtap="randomIdea" hover-class="hover-opacity">换一个玩法</button>
+      <button class="warm-button btn-primary" bindtap="sendToRelation" hover-class="hover-scale">{{relation ? '邀约' : '关系'}}</button>
+      <button class="warm-button btn-primary poll-btn" bindtap="initiatePoll" hover-class="hover-scale" wx:if="{{relation}}" style="background: linear-gradient(135deg, #6c5ce7, #a29bfe); border-color: #6c5ce7; margin-left: 10rpx;">发起投票</button>
+    </view>
+  </view>
+
+  <view class="status-card" wx:if="{{latestAction}}">
+    <view class="status-label">邀约状态</view>
+    <view class="status-title">{{latestAction.title}}</view>
+    <view class="status-copy">{{latestAction.status === 'accepted' ? '对方已经回应，可以准备一起出发了。' : '邀约已经发出，正在等待对方回应。'}}</view>
+  </view>
+</view>

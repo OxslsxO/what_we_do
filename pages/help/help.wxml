@@ -1,0 +1,34 @@
+<view class="page">
+  <view class="hero">
+    <view class="hero-kicker">Help Center</view>
+    <view class="hero-title">帮助与反馈</view>
+    <view class="hero-copy">这里先放最常用的问题说明和反馈入口，后续接入正式客服与订阅消息后，这页会继续扩成完整支持中心。</view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">常见问题</view>
+    <view class="faq-card">
+      <view class="faq-item" wx:for="{{faqs}}" wx:key="index">
+        <view class="faq-title">{{item.title}}</view>
+        <view class="faq-answer">{{item.answer}}</view>
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">反馈入口</view>
+    <view class="action-card">
+      <view class="action-title">复制一份标准反馈模板</view>
+      <view class="action-copy">把页面、复现步骤和设备信息填上，再发给开发同学，排查会快很多。</view>
+      <button class="warm-button" bindtap="copyFeedbackInfo">复制反馈模板</button>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">继续使用</view>
+    <view class="action-list">
+      <button class="ghost-button" bindtap="goToRelation">去关系空间</button>
+      <button class="ghost-button" bindtap="goToDiscover">去发现页</button>
+    </view>
+  </view>
+</view>

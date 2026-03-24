@@ -1,0 +1,39 @@
+<view class="container">
+  <view class="header">
+    <view class="back-btn" bindtap="goBack">←</view>
+    <view class="title">我的记录</view>
+    <view class="placeholder"></view>
+  </view>
+
+  <view class="post-list" wx:if="{{posts.length}}">
+    <view class="post-item" wx:for="{{posts}}" wx:key="_id" data-post-id="{{item._id}}" bindtap="goToPost">
+      <view class="post-type">{{item.displayType}}</view>
+      <view class="post-title">{{item.title}}</view>
+      <view class="post-content">{{item.content}}</view>
+
+      <view class="post-images" wx:if="{{item.images.length}}">
+        <view class="img-square-container" wx:for="{{item.images}}" wx:key="*this">
+          <image class="post-image" src="{{item}}" mode="aspectFill"></image>
+        </view>
+      </view>
+
+      <view class="post-tags" wx:if="{{item.tags.length}}">
+        <view class="tag" wx:for="{{item.tags}}" wx:key="_id">{{item.name || item}}</view>
+      </view>
+
+      <view class="post-info">
+        <view class="post-time">{{item.createdAt}}</view>
+        <view class="post-meta">{{item.likes || 0}} 赞 · {{item.comments || 0}} 评论</view>
+      </view>
+    </view>
+
+    <view class="no-more" wx:if="{{!hasMore && !loading}}">已经到底啦</view>
+    <view class="load-more" wx:if="{{loading}}">正在加载...</view>
+  </view>
+
+  <view class="empty-state" wx:else>
+    <view class="empty-icon">📝</view>
+    <view class="empty-text">你还没有发布自己的生活记录</view>
+    <button class="empty-btn" bindtap="goToPublish">去发布第一条</button>
+  </view>
+</view>

@@ -1,0 +1,115 @@
+<view class="page">
+  <view class="hero-card">
+    <view class="hero-kicker">Eat Engine</view>
+    <view class="hero-title">今天吃点啥</view>
+    <view class="hero-copy">
+      不只是随机一个结果，而是把“想吃什么”变成可以发起、回应、完成和记录的一件事。
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="section-title">筛一筛今天的方向</view>
+    <scroll-view scroll-x class="chip-scroll" show-scrollbar="{{false}}">
+      <view class="chip-row">
+        <view
+          wx:for="{{budgetOptions}}"
+          wx:key="id"
+          class="filter-chip {{selectedBudget === item.id ? 'filter-chip-active' : ''}}"
+          data-value="{{item.id}}"
+          bindtap="selectBudget"
+          hover-class="hover-scale"
+        >{{item.label}}</view>
+      </view>
+    </scroll-view>
+    <scroll-view scroll-x class="chip-scroll" show-scrollbar="{{false}}">
+      <view class="chip-row">
+        <view
+          wx:for="{{sceneOptions}}"
+          wx:key="id"
+          class="filter-chip {{selectedScene === item.id ? 'filter-chip-active' : ''}}"
+          data-value="{{item.id}}"
+          bindtap="selectScene"
+          hover-class="hover-scale"
+        >{{item.label}}</view>
+      </view>
+    </scroll-view>
+    <button class="warm-button btn-primary" bindtap="generateFood" hover-class="hover-scale">{{loadingPick ? '正在想今天吃什么' : '帮我随机一下'}}</button>
+  </view>
+
+  <view class="section" wx:if="{{currentPick}}">
+    <view class="food-card">
+      <view class="food-media {{!currentPick.imageUrl ? 'food-media-placeholder' : ''}}">
+        <image wx:if="{{currentPick.imageUrl}}" src="{{currentPick.imageUrl}}" mode="aspectFill"></image>
+        <view wx:else class="placeholder-inner">
+          <view class="placeholder-icon">🍽️</view>
+          <view class="placeholder-copy">今天的推荐正在等你开动</view>
+        </view>
+      </view>
+
+      <view class="food-name">{{currentPick.name}}</view>
+      <view class="food-reason">{{currentPick.reason}}</view>
+
+      <view class="tag-row">
+        <view wx:for="{{currentPick.tags}}" wx:key="*this" class="tag-chip">{{item}}</view>
+      </view>
+
+      <view class="action-grid">
+        <button class="soft-button" bindtap="generateFood" hover-class="hover-opacity">换一个</button>
+        <button class="soft-button" bindtap="goToMeituan" hover-class="hover-opacity">去看看店</button>
+        <button class="soft-button" bindtap="goToPublish" hover-class="hover-opacity">记一条帖子</button>
+        <button class="warm-button btn-primary mini-warm" bindtap="openActionModal" hover-class="hover-scale" style="flex: 1.2;">{{relation ? '发给 TA' : '建立关系'}}</button>
+        <button class="warm-button btn-primary mini-warm challenge-btn" bindtap="initiateChallenge" hover-class="hover-scale" wx:if="{{relation}}" style="flex: 1.2; margin-left: 10rpx; background: linear-gradient(135deg, #FF6B6B, #FF8E53);">投喂挑战</button>
+      </view>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{latestAction}}">
+    <view class="section-title">这次动作的状态</view>
+    <view class="action-status-card">
+      <view class="status-label">{{latestAction.status === 'accepted' ? '对方已回应' : latestAction.status === 'done' ? '已经完成' : '等待对方回应'}}</view>
+      <view class="status-title">{{latestAction.title}}</view>
+      <view class="status-copy">{{latestAction.summary || latestAction.message}}</view>
+      <button wx:if="{{latestAction.status === 'accepted'}}" class="warm-button btn-primary" bindtap="completeLatestAction" hover-class="hover-scale">标记今天吃到了</button>
+    </view>
+  </view>
+
+  <view class="section" wx:if="{{currentPick && currentPick.recipe}}">
+    <view class="section-title">今天这顿怎么展开</view>
+    <view class="recipe-card">
+      <view class="recipe-content">{{currentPick.recipe}}</view>
+    </view>
+  </view>
+
+  <view class="modal-mask" wx:if="{{showActionModal}}" bindtap="closeActionModal">
+    <view class="modal-card" bindtap="stopPropagation">
+      <view class="modal-title">把这顿饭发给 TA</view>
+      <view class="modal-copy">
+        这一步会生成一条关系动作卡片，让对方可以回应“我请你 / 一起吃 / 先收下”。
+      </view>
+
+      <view class="field-label">收货人 / 备注名</view>
+      <input class="field-input" placeholder="比如：宝宝 / 室友 / 小王" value="{{actionForm.receiverName}}" data-field="receiverName" bindinput="updateActionForm" />
+
+      <view class="field-label">手机号</view>
+      <input class="field-input" placeholder="如果是外卖，可先填手机号" value="{{actionForm.phone}}" data-field="phone" bindinput="updateActionForm" />
+
+      <view class="field-label">地址</view>
+      <textarea class="field-textarea" placeholder="如果你想让对方直接帮你点，可以把地址一起写上" value="{{actionForm.address}}" data-field="address" bindinput="updateActionForm"></textarea>
+
+      <view class="field-label">想说的话</view>
+      <textarea class="field-textarea" placeholder="写一句今天的期待，会更有温度" value="{{actionForm.message}}" data-field="message" bindinput="updateActionForm"></textarea>
+
+      <view class="field-label">希望 TA 怎么回应</view>
+      <view class="type-row">
+        <view class="type-chip {{actionForm.responseMode === 'treat' ? 'type-chip-active' : ''}}" data-mode="treat" bindtap="selectResponseMode" hover-class="hover-opacity">请我吃</view>
+        <view class="type-chip {{actionForm.responseMode === 'together' ? 'type-chip-active' : ''}}" data-mode="together" bindtap="selectResponseMode" hover-class="hover-opacity">一起去吃</view>
+        <view class="type-chip {{actionForm.responseMode === 'save' ? 'type-chip-active' : ''}}" data-mode="save" bindtap="selectResponseMode" hover-class="hover-opacity">先收下</view>
+      </view>
+
+      <view class="modal-actions">
+        <button class="ghost-button btn-ghost" bindtap="closeActionModal" hover-class="hover-opacity">取消</button>
+        <button class="warm-button btn-primary" bindtap="submitEatAction" hover-class="hover-scale">发起动作</button>
+      </view>
+    </view>
+  </view>
+</view>

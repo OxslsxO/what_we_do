@@ -1,0 +1,86 @@
+<view class="page">
+  <view class="header">
+    <view class="header-back" bindtap="goBack">←</view>
+    <view class="header-title">帖子详情</view>
+    <view class="header-share" bindtap="handleShareTap">分享</view>
+  </view>
+
+  <view class="detail-card" wx:if="{{post}}">
+    <view class="badge-row">
+      <view class="module-badge">{{post.moduleLabel}}</view>
+      <view class="template-badge">{{post.templateLabel}}</view>
+    </view>
+
+    <view class="author-row">
+      <view class="author-avatar">
+        <text wx:if="{{!post.authorAvatar}}">{{post.authorInitial}}</text>
+        <image wx:else src="{{post.authorAvatar}}" mode="aspectFill" class="author-avatar-image"></image>
+      </view>
+      <view class="author-info">
+        <view class="author-name">{{post.authorName}}</view>
+        <view class="author-time">{{post.createdAtText}}</view>
+      </view>
+    </view>
+
+    <view class="post-title">{{post.title}}</view>
+    <view class="post-summary" wx:if="{{post.summary}}">{{post.summary}}</view>
+    <view class="post-content">{{post.content}}</view>
+
+    <swiper wx:if="{{post.images.length + post.videos.length}}" class="media-swiper" circular indicator-dots indicator-color="rgba(255,255,255,0.45)" indicator-active-color="#f7d29b">
+      <block wx:for="{{post.images}}" wx:key="index">
+        <swiper-item>
+          <image class="media-item" src="{{item}}" mode="aspectFill"></image>
+        </swiper-item>
+      </block>
+      <block wx:for="{{post.videos}}" wx:key="index">
+        <swiper-item>
+          <video class="media-item" src="{{item}}" object-fit="cover" controls></video>
+        </swiper-item>
+      </block>
+    </swiper>
+
+    <view class="tag-row" wx:if="{{post.tagNames.length}}">
+      <view class="tag-chip" wx:for="{{post.tagNames}}" wx:key="index">#{{item}}</view>
+    </view>
+
+    <view class="stats-row">
+      <view class="stat-card">
+        <view class="stat-value">{{post.likes || 0}}</view>
+        <view class="stat-label">点赞</view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-value">{{post.comments || 0}}</view>
+        <view class="stat-label">评论</view>
+      </view>
+      <view class="stat-card">
+        <view class="stat-value">{{post.collections || 0}}</view>
+        <view class="stat-label">收藏</view>
+      </view>
+    </view>
+
+    <view class="action-row">
+      <view class="action-pill" bindtap="toggleLike">
+        <text class="action-emoji">{{post.isLiked ? '❤️' : '🤍'}}</text>
+        <text>{{post.isLiked ? '已点赞' : '点赞'}}</text>
+      </view>
+      <view class="action-pill" bindtap="toggleCollect">
+        <text class="action-emoji">{{post.isCollected ? '⭐' : '☆'}}</text>
+        <text>{{post.isCollected ? '已收藏' : '收藏'}}</text>
+      </view>
+      <view class="action-pill" bindtap="goToComments">
+        <text class="action-emoji">💬</text>
+        <text>评论区</text>
+      </view>
+      <view class="action-pill" bindtap="handleShareTap">
+        <text class="action-emoji">↗</text>
+        <text>分享</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="empty-state" wx:elif="{{!loading}}">
+    <view class="empty-emoji">🌫</view>
+    <view class="empty-title">这条帖子暂时不在这里了</view>
+    <view class="empty-copy">你可以返回发现页看看其他今天的记录。</view>
+  </view>
+</view>

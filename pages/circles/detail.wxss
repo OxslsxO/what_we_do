@@ -1,0 +1,81 @@
+.container {
+  width: 100vw; height: 100vh;
+  background: var(--bg-gradient);
+  position: relative; overflow: hidden;
+}
+.nav-bar {
+  display: flex; align-items: center; padding: 20rpx 40rpx;
+  position: absolute; top: 0; left: 0; width: 100%; z-index: 100;
+}
+.back-btn { font-size: 40rpx; color: var(--text-main); margin-right: 32rpx; }
+.nav-title { font-size: 34rpx; font-weight: 600; color: var(--text-main); }
+
+.canvas-area {
+  position: absolute; top: 15%; left: 0; width: 100%; height: 70%;
+}
+
+/* 节点排布 - 菱形定位 */
+.node-wrapper {
+  position: absolute; display: flex; flex-direction: column; align-items: center;
+  transition: transform 0.2s;
+}
+.pos-0 { top: 0; left: 50%; transform: translateX(-50%); }         /* 上 */
+.pos-1 { bottom: 0; left: 50%; transform: translateX(-50%); }      /* 下 */
+.pos-2 { top: 50%; left: 40rpx; transform: translateY(-50%); }     /* 左 */
+.pos-3 { top: 50%; right: 40rpx; transform: translateY(-50%); }    /* 右 */
+
+.node-avatar {
+  width: 140rpx; height: 140rpx; border-radius: 50%;
+  background: #fff; box-shadow: var(--shadow-soft);
+  padding: 8rpx; border: 4rpx solid var(--border-color);
+  position: relative; z-index: 5;
+}
+.node-avatar.active { border-color: var(--primary); }
+.node-avatar image { width: 100%; height: 100%; border-radius: 50%; }
+
+.node-name { margin-top: 12rpx; font-size: 24rpx; color: var(--text-sub); font-weight: 500; }
+
+.center-hub {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 160rpx; height: 160rpx; 
+}
+.hub-inner {
+  width: 100%; height: 100%; border-radius: 40rpx;
+  background: rgba(255,255,255,0.8); backdrop-filter: blur(10px);
+  border: 1rpx solid var(--border-light);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: var(--shadow-soft); transform: rotate(45deg);
+}
+.hub-icon { transform: rotate(-45deg); font-size: 60rpx; }
+
+/* 连线样式 */
+.interaction-line {
+  position: absolute; height: 6rpx;
+  background: linear-gradient(90deg, #FF9A76, #FFB6C1);
+  transform-origin: left center; z-index: 1; pointer-events: none;
+  border-radius: 3rpx; opacity: 0.8;
+}
+.temp-line {
+  position: absolute; height: 4rpx; border-top: 4rpx dashed var(--primary);
+  transform-origin: left center; z-index: 2; opacity: 0.6;
+}
+
+.line-flow {
+  width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  background-size: 200% 100%;
+  animation: flow 1.5s infinite linear;
+}
+
+@keyframes flow {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.action-bar {
+  position: absolute; bottom: 80rpx; left: 0; width: 100%;
+  padding: 0 60rpx; text-align: center;
+}
+.tips { font-size: 26rpx; color: var(--text-sub); margin-bottom: 40rpx; opacity: 0.7; }
+.footer-btns { display: flex; justify-content: center; gap: 30rpx; }

@@ -1,0 +1,69 @@
+<wxs module="lineUtil">
+  var getStyle = function(p1, p2) {
+    if (!p1 || !p2) return '';
+    var dx = p2.x - p1.x;
+    var dy = p2.y - p1.y;
+    var distance = Math.sqrt(dx * dx + dy * dy);
+    var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+    return 'width:' + distance + 'px; transform: rotate(' + angle + 'deg); left:' + p1.x + 'px; top:' + p1.y + 'px;';
+  }
+  module.exports = { getStyle: getStyle };
+</wxs>
+
+<view class="container">
+  <!-- 自定义顶部返回 -->
+  <view class="nav-bar" style="padding-top:{{statusBarHeight}}px">
+    <view class="back-btn" bindtap="goBack">←</view>
+    <view class="nav-title">{{circle.name || '加载中...'}}</view>
+  </view>
+
+  <view class="canvas-area">
+    <!-- 连线背景层 -->
+    <view class="lines-layer">
+      <view class="interaction-line {{item.actionType}}" 
+            wx:for="{{activeLines}}" wx:key="_id"
+            style="{{lineUtil.getStyle(item.fromPos, item.toPos)}}">
+        <view class="line-flow"></view>
+      </view>
+      
+      <!-- 正在拖拽的临时连线 -->
+      <view class="temp-line" wx:if="{{isDragging}}"
+            style="{{lineUtil.getStyle(dragStart, dragEnd)}}">
+      </view>
+    </view>
+
+    <!-- 头像节点层 (4人固定位) -->
+    <view class="nodes-layer">
+      <view class="node-wrapper {{'pos-' + index}}" 
+            wx:for="{{displayMembers}}" wx:key="user"
+            id="node-{{index}}"
+            catchtouchstart="onNodeTouchStart"
+            catchtouchmove="onNodeTouchMove"
+            catchtouchend="onNodeTouchEnd"
+            data-index="{{index}}"
+            data-uid="{{item.user._id}}">
+        <view class="node-avatar {{item.isActive ? 'active' : ''}}">
+          <image src="{{item.user.userInfo.avatar}}"></image>
+          <view class="node-ripple" wx:if="{{item.isActive}}"></view>
+        </view>
+        <view class="node-name">{{item.user.userInfo.name}}</view>
+      </view>
+      
+      <!-- 中间的共用功能按钮 (扭蛋/合照等) -->
+      <view class="center-hub" bindtap="onHubClick">
+        <view class="hub-inner">
+          <view class="hub-icon">🎲</view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部交互条 -->
+  <view class="action-bar">
+    <view class="tips">长按你的头像，拽一条线牵向 TA</view>
+    <view class="footer-btns">
+      <button class="ghost-button mini" bindtap="inviteFriend">邀请同伴</button>
+      <button class="ghost-button mini" bindtap="showSettings">设置</button>
+    </view>
+  </view>
+</view>

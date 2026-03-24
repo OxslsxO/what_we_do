@@ -1,0 +1,28 @@
+<view class="page">
+  <view class="title-area">
+    <view class="main-title">互动扭蛋机</view>
+    <view class="sub-title">每天 1 次抽取关系特权，去小券包找 TA 兑换吧！</view>
+  </view>
+
+  <view class="gacha-machine-container">
+    <view class="machine-body">
+      <view class="machine-emoji">{{isShaking ? '🌀' : '🎁'}}</view>
+    </view>
+    <view class="machine-base"></view>
+  </view>
+
+  <button class="pull-btn" bindtap="pullGacha" disabled="{{isShaking || hasPulledToday}}">
+    {{hasPulledToday ? '明天再来摇吧' : '摇一张特权券 (剩余 1 次)'}}
+  </button>
+
+  <view class="link-btn" bindtap="goToWallet">查看我的小券包</view>
+
+  <view class="modal-overlay" wx:if="{{showResult}}" bindtap="closeResult">
+    <view class="result-card" catchtap="return">
+      <view class="rarity-badge bg-{{resultCard.rarity.toLowerCase()}}">{{resultCard.rarity}} 倍率</view>
+      <view class="card-title">{{resultCard.title}}</view>
+      <view class="card-desc">{{resultCard.desc}}</view>
+      <button class="modal-btn" bindtap="closeResult">收下放进券包</button>
+    </view>
+  </view>
+</view>

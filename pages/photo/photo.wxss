@@ -1,0 +1,78 @@
+page {
+  /* Overwrite App variables for Photo Page - Warm Vintage Brown */
+  --primary: #BC9B77;
+  --primary-light: #E0CAAC;
+  --primary-gradient: linear-gradient(135deg, #D6B796 0%, #BC9B77 100%);
+  --bg-color: #FDFBF8;
+  --card-bg-gradient: linear-gradient(135deg, rgba(255, 253, 248, 1) 0%, rgba(252, 250, 245, 0.95) 100%);
+  --shadow-primary: 0 12rpx 24rpx rgba(188, 155, 119, 0.25);
+  --border-light: rgba(224, 202, 172, 0.3);
+}
+
+.page {
+  min-height: 100vh;
+  padding: 32rpx 24rpx 52rpx;
+  box-sizing: border-box;
+}
+
+/* Base Cards */
+.hero-card,
+.idea-card,
+.status-card {
+  padding: 40rpx 36rpx;
+  border-radius: var(--radius-lg);
+  background: var(--card-bg-gradient);
+  border: 1rpx solid var(--border-light);
+  box-shadow: var(--shadow-soft);
+  margin-bottom: 32rpx;
+}
+
+/* Typography */
+.hero-kicker,
+.status-label {
+  font-size: 22rpx;
+  color: var(--primary);
+  letter-spacing: 2rpx;
+  font-weight: 500;
+}
+
+.hero-title,
+.idea-title,
+.status-title {
+  margin-top: 16rpx;
+  font-size: 52rpx;
+  font-weight: bold;
+  color: var(--text-main);
+}
+
+.hero-copy,
+.idea-copy,
+.status-copy {
+  margin-top: 16rpx;
+  font-size: 26rpx;
+  line-height: 1.7;
+  color: var(--text-sub);
+}
+
+/* Specific elements */
+.idea-scene {
+  display: inline-block;
+  padding: 10rpx 24rpx;
+  border-radius: var(--radius-round);
+  background: rgba(188, 155, 119, 0.1);
+  color: var(--primary);
+  font-size: 22rpx;
+  font-weight: 500;
+}
+
+.action-row {
+  display: flex;
+  gap: 16rpx;
+  margin-top: 44rpx;
+}
+
+.warm-button,
+.ghost-button {
+  flex: 1;
+  padding: 24rpx 0;
+}
